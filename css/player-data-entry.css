@@ -1,0 +1,72 @@
+#player-data-entry {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    z-index: 1;
+    font-size: 2vh;
+}
+
+#name-entry {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+#name-input {
+    margin-top: 1vh;
+    font-size: 2.4vh;
+    line-height: 5vh;
+    text-align: center;
+    color: #ddd;
+    background-color: inherit;
+    border-radius: 5px;
+}
+
+.bad-response {
+    margin-top: 1vh;
+    border-top: 1px solid rgb(140, 50, 50);
+    border-bottom: 1px solid rgb(140, 50, 50);
+    animation: fadeinout 2s linear forwards;
+    opacity: 0;
+    background-color: rgb(255, 95, 95);
+    color: white;
+    font-size: 2.4vh;
+}
+
+@keyframes fadeinout {
+    10% { opacity: 0.8; }
+    80% { opacity: 0.8; }
+  }
+
+#team-selection {
+    margin-bottom: 2vh;
+}
+
+.entry-prompt {
+    font-size: 2.4vh;
+}
+
+.team-button {
+    height: 8vh;
+    width: 8vh;
+    margin: 1vh;
+    margin-bottom: 1vh;
+    background-color: inherit;
+    border: 1px solid #888;
+    border-radius: 4vh;
+    font-size: 2.4vh;
+}
+
+#role-selection {
+    margin-bottom: 4vh;
+}
+
+#root-button {
+    border-radius: 4vh;
+    border-width: 2px;
+}
+
+#start-button {
+    color: #ddd;
+    width: 12vh;
+    border-radius: 5px;
+}

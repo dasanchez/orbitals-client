@@ -1,0 +1,25 @@
+#nav-bottom {
+    position: absolute;
+    top: 88%;
+    left: 0;
+    right: 0;
+    height: 12%;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+}
+
+.nav-button {
+    width: 34%;
+    height: 100%;
+    align-self: center;
+    border: 0;
+    font-size: 3vh;
+    letter-spacing: 2px;
+    background-color: black;
+    color: #ddd;
+}
+
+@media only screen and (max-width: 800px) {
+
+}

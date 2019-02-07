@@ -1,0 +1,141 @@
+#comms-area {
+    position: absolute;
+    height: 8%;
+    top: 80%;
+    width: 100%;
+    background-color: #333;
+    display: flex;
+}
+
+#message-area,
+#hint-submission-comms,
+#hint-response-comms,
+#replay-area {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+}
+
+#message-input {
+    box-sizing: border-box;
+    width: 80%;
+    margin-left: 2%;
+    margin-right: 2%;
+    padding-left: 1vw;
+    align-self: center;
+    font-size: 2.4vh;
+    line-height: 5vh;
+    letter-spacing: 1px;
+    background-color: #111;
+    color: #ddd;
+    border-radius: 3px;
+    border: 1px solid #888;
+}
+
+#message-entry::placeholder {
+    color: #ccc;
+}
+
+.send-button {
+    font-size: 2.4vh;
+    line-height: 5vh;
+    letter-spacing: 1px;
+    align-self: center;
+    background-color: #000;
+    color: #ddd;
+    border-radius: 3px;
+    font-weight: 400;
+    border: 1px solid #888;
+}
+
+#send-message-button {
+    box-sizing: border-box;
+    width: 20%;
+    margin-right: 2%;
+}
+
+#root-hint-label {
+    width: 10%;
+    text-align: center;
+    align-self: center;
+}
+
+#hint-input {
+    width: 40%;
+    box-sizing: border-box;
+    margin-left: 2%;
+    padding-left: 1%;
+    align-self: center;
+    font-size: 1.2rem;
+    line-height: 1.8rem;
+    letter-spacing: 1px;
+    background-color: #111;
+    color: #ddd;
+    border-radius: 3px;
+    border: 1px solid #888;
+}
+
+#guess-container {
+    display: flex;
+    width: 35%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+#root-guesses-label {
+    width: 40%;
+    box-sizing: border-box;
+    align-self: center;
+    text-align: center;
+    font-size: 2vh;
+    margin-left: 2vh;
+}
+
+#guess-range {
+    width: 80%;
+    padding: 10px;
+    align-self: center;
+}
+
+#guess-count-label {
+    width: 20%;
+    align-self: center;
+    text-align: center;
+}
+
+#root-submit-button {
+    box-sizing: border-box;
+    width: 25%;
+    margin-right: 2%;
+}
+
+#approve-button {
+    width: 50%;
+    margin: 1vh;
+    margin-left: 5vw;
+    margin-right: 5vw;
+}
+
+#reject-button {
+    width: 50%;
+    margin: 1vh;
+    margin-left: 5vw;
+    margin-right: 5vw;
+}
+
+#replay-button {
+    width: 25%;
+    margin-left: 2%;
+}
+
+@media only screen and (max-width: 800px) {
+
+    /* #message-input { */
+        /* font-size: 3.6vw; */
+    /* } */
+
+    #hint-input {
+        font-size: 2vh;
+    }
+
+}

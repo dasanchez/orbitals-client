@@ -1,0 +1,99 @@
+#status-bar {
+  height: 10%;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+}
+
+#state-container {
+  width: 75%;
+  background-color: #333;
+}
+
+#state-top-half {
+  height: 50%;
+  width: 100%;
+  margin: 0 auto; 
+  text-align: center;
+  align-self: center;
+  /* font-size: 3vh; */
+  border-bottom: 1px solid black;
+  display: flex;
+}
+
+#state-text {
+  width: 100%;
+  align-self: center;
+  font-size: 2.4vh;
+}
+
+#state-bottom-half {
+  height: 50%;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+}
+
+#hint-label {
+  width: 15%;
+  text-align: center;
+  align-self: center;
+  font-size: 1.6vh;
+}
+
+#current-hint {
+  width: 50%;
+  box-sizing: border-box;
+  align-self: center;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: #222;
+  font-size: 2.4vh;
+  line-height: 4vh;
+  text-align: center;
+  border-radius: 10px;
+}
+
+#guesses-label {
+  width: 22%;
+  align-self: center;
+  text-align: center;
+  font-size: 1.6vh;
+}
+
+#guesses-left { 
+  width: 10%;
+  box-sizing: border-box;
+  align-self: center;
+  text-align: center;
+  background-color: #222;
+  font-size: 2.4vh;
+  line-height: 4vh;
+  border-radius: 10px;
+}
+
+#turn-container {
+  height: 100%;
+  width: 25%;
+  background-color: #ddd;
+  color: black;
+  font-size: 3.6vh;
+  letter-spacing: 2px;
+  text-align: center;
+  display: flex;
+}
+
+#timer {
+  width: 100%;
+  align-self: center;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+@media only screen and (max-width: 800px) {
+  
+    #state-top-half {
+    font-size: 2vh;
+   }
+   
+}  
