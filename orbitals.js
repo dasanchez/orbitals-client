@@ -48,6 +48,8 @@
         tableInfo = document.getElementById('table-info'),
         connectionStatus = document.getElementById('connection-status'),
         playerList = document.getElementById('player-list'),
+        orangeTeam = document.getElementById('orange-team'),
+        blueTeam = document.getElementById('blue-team'),
         userId = document.getElementById('user-id'),
         teamId = document.getElementById('team-id'),
         nameId = document.getElementById('name-id'),
@@ -84,7 +86,7 @@
 
 { // player variables
     // var websocket = new WebSocket("ws://127.0.0.1:9001/");
-    var websocket = new WebSocket("ws://192.168.0.193:9001/");
+    var websocket = new WebSocket("ws://localhost:9001/");
     var gameOn = false;
 }
 
@@ -97,13 +99,18 @@ function sleep(ms) {
     gameButton.onclick = function () {
         if (gameOn) {
             updateMainArea('word-board');
-        } else {
-            updateMainArea('data-entry');
+            gameButton.style.backgroundColor = '#333';
+            commsButton.style.backgroundColor = '#111';
+            tableButton.style.backgroundColor = '#111';
+            gameButton.blur();
         }
-        gameButton.style.backgroundColor = '#333';
-        commsButton.style.backgroundColor = '#111';
-        tableButton.style.backgroundColor = '#111';
-        gameButton.blur();
+        // else {
+        // updateMainArea('data-entry');
+        // }
+        // gameButton.style.backgroundColor = '#333';
+        // commsButton.style.backgroundColor = '#111';
+        // tableButton.style.backgroundColor = '#111';
+        // gameButton.blur();
     }
 
     commsButton.onclick = function () {
@@ -282,7 +289,7 @@ function sleep(ms) {
                 turnContainer.style.backgroundColor = '#bbb';
                 break;
             case 'B':
-                turnContainer.style.backgroundColor = '#3288ca';
+                turnContainer.style.backgroundColor = '#40acff';
                 break;
             case 'O':
                 turnContainer.style.backgroundColor = 'orange';
@@ -307,18 +314,6 @@ function sleep(ms) {
         mainArea.style.height = '57%';
         lastMessageContainer.style.visibility = 'visible';
         switch (area) {
-            case 'data-entry':
-                mainArea.appendChild(dataEntryArea);
-                if (nameResponse.parentNode === nameEntry) {
-                    nameEntry.removeChild(nameResponse);
-                }
-                if (teamResponse.parentNode === teamSelection) {
-                    teamSelection.removeChild(teamResponse);
-                }
-                if (roleResponse.parentNode === roleSelection) {
-                    roleSelection.removeChild(roleResponse);
-                }
-                break;
             case 'word-board':
                 mainArea.appendChild(wordBoard);
                 break;
@@ -455,7 +450,7 @@ function sleep(ms) {
         updateStatusBar(startStatus);
         updateTimer(0);
         // main area
-        updateMainArea('data-entry');
+        updateMainArea('table-info');
         updateDataEntry();
         if (nameResponse.parentNode === nameEntry) {
             nameEntry.removeChild(nameResponse);
@@ -473,7 +468,7 @@ function sleep(ms) {
 
         // nav area
         commsButton.style.visibility = 'hidden';
-        gameButton.click();
+        tableButton.click();
     }
 
     // viewport fixes and scrolling behaviour
@@ -511,8 +506,9 @@ function sleep(ms) {
 // websocket functions
 {
     websocket.onopen = function (evt) {
-        connectionStatus.textContent = "";
-        updateMainArea('data-entry');
+        // connectionStatus.textContent = "";
+        // updateMainArea('data-entry');
+        connectionStatus.style.display = 'none';
     };
 
     websocket.onclose = function (event) {
@@ -583,65 +579,56 @@ function sleep(ms) {
                 break;
             case 'players':
                 {
-                    while (playerList.firstChild) {
-                        playerList.removeChild(playerList.firstChild);
+                    while (orangeTeam.firstChild) {
+                        orangeTeam.removeChild(orangeTeam.firstChild);
+                    };
+                    while (blueTeam.firstChild) {
+                        blueTeam.removeChild(blueTeam.firstChild);
                     };
 
                     orangeHubIcon.style.visibility = 'hidden';
                     blueHubIcon.style.visibility = 'hidden';
-                    orangeOrbIcon.style.visibility = 'hidden';
-                    blueOrbIcon.style.visibility = 'hidden';
 
                     // populate player list
                     data.players.forEach(function (element) {
 
                         var playerEntry = document.createElement("div");
-                        // var teamIndicator = document.createElement("div");
                         var playerName = document.createElement("div");
-
-                        // playerEntry.appendChild(teamIndicator);
+                        var containerClass = "player-entry";
+                        var playerReady = element.ready;
+                        var team = element.team;
                         playerEntry.appendChild(playerName);
 
-                        var playerClass = "team-indicator";
-                        var containerClass = "player-entry"
-                        var playerReady = element.ready;
-
-                        if (element.team === 'O') {
+                        if (team === 'O') {
                             if (element.src) {
-                                containerClass = containerClass + " orange-border-on"    
-                                orangeHubIcon.style.visibility = 'visible';
+                                containerClass = containerClass + " orange-border-on";
                                 if (playerReady) {
-                                    playerClass = playerClass + " orange-ready"
-                                } else {
-                                    playerClass = playerClass + " orange-source"
+                                    orangeHubIcon.style.visibility = 'visible';
                                 }
                             }
                             else {
-                                containerClass = containerClass + " orange-border-off"
-                                orangeOrbIcon.style.visibility = 'visible';
+                                containerClass = containerClass + " orange-border-off";
                             }
-                        } else if (element.team === 'B') {
+                        } else if (team === 'B') {
                             if (element.src) {
-                                containerClass = containerClass + " blue-border-on"
-                                blueHubIcon.style.visibility = 'visible';
+                                containerClass = containerClass + " blue-border-on";
                                 if (element.ready) {
-                                    playerClass = playerClass + " blue-ready"
-                                } else {
-                                    playerClass = playerClass + " blue-source"
+                                    blueHubIcon.style.visibility = 'visible';
                                 }
                             }
                             else {
                                 containerClass = containerClass + " blue-border-off";
-                                blueOrbIcon.style.visibility = 'visible';
                             }
                         } else {
                             containerClass = containerClass + " neutral-border-off";
                         }
                         playerEntry.setAttribute("class", containerClass);
-                        // teamIndicator.setAttribute("class", playerClass);
                         playerName.setAttribute("class", "player-name");
                         playerName.innerHTML = element.name;
-                        playerList.appendChild(playerEntry);
+                        if (team === 'B')
+                            blueTeam.appendChild(playerEntry);
+                        else if (team === 'O')
+                            orangeTeam.appendChild(playerEntry);
                     });
                 }
                 break;
@@ -649,20 +636,24 @@ function sleep(ms) {
                 {
                     state = data.state;
                     if (state === 'waiting-players') {
-                        if (gameOn) {
-                            gameOn = false;
-                            updateStatusBar(data);
-                            updateMainArea('data-entry');
-                        }
+                        // if (gameOn) {
+                        // gameOn = false;
+                        // updateStatusBar(data);
+                        // updateMainArea('data-entry');
+                        // }
+                        updateStatusBar(data);
+                        updateMainArea('table-info');
                         var dataEntry = data.entry;
                         updateDataEntry(dataEntry);
                         updateCommsArea('message');
                     } else if (state === 'waiting-start') {
-                        if (gameOn) {
-                            gameOn = false;
-                            updateStatusBar(data);
-                            updateMainArea('data-entry');
-                        }
+                        // if (gameOn) {
+                        // gameOn = false;
+                        // updateStatusBar(data);
+                        // updateMainArea('table-info');
+                        // }
+                        updateStatusBar(data);
+                        updateMainArea('table-info');
                         var dataEntry = data.entry;
                         updateStatusBar(data);
                         updateDataEntry(dataEntry, data.ready);
@@ -672,6 +663,7 @@ function sleep(ms) {
                         updateMainArea('word-board');
                         if (data.updateComms == true)
                             updateCommsArea(data.comms)
+                        gameButton.click();
                     } else if (state === 'hint-submission' || state === 'hint-response') {
                         updateStatusBar(data);
                         if (data.updateComms) {
@@ -685,6 +677,8 @@ function sleep(ms) {
                             updateCommsArea(data.comms);
                         }
                     } else if (data.state === 'game-over') {
+                        orangeHubIcon.style.visibility = 'hidden';
+                        blueHubIcon.style.visibility = 'hidden';
                         updateStatusBar(data);
                         if (data.updateComms) {
                             updateCommsArea(data.comms);
