@@ -60,35 +60,7 @@
 
     <div id='mainArea'>
 
-        <div id="player-data-entry">
-            <div id="name-entry">
-                <!-- <div>Username</div> -->
-                <input id="name-input" class="neutral-border-off" placeholder="Enter a name">
-                <button id="name-send" class="send-button">Send</button>
-                <div id="name-response" class="bad-response"></div>
-            </div>
-            <div id="team-selection">
-                <div id="team-prompt" class="entry-prompt">Choose a team</div>
-                <div id="team-options">
-                    <button id="orange-team-button" class="team-button orange-border-off">
-                    </button>
-                    <button id="blue-team-button" class="team-button blue-border-off">
-                    </button>
-                </div>
-                <div id="team-response" class="bad-response"></div>
-            </div>
-            <div id="role-selection">
-                <div id="role-prompt" class="entry-prompt">Play as hub?</div>
-                <button id="root-button" class="team-button">
-                </button>
-                <div id="role-response" class="bad-response"></div>
-            </div>
-            <div id="ready-area">
-                <!-- <div>Ready?</div> -->
-                <button id="start-button" class="team-button">Start
-                </button>
-            </div>
-        </div>
+        
 
         <div id="word-board">
             <button class="word-box" id="word1">...</button>
@@ -119,7 +91,40 @@
             <div id="conn-container">
                 <span id="connection-status">NOT </span>
             </div>
-            <div id='player-list'></div>
+            <div id="player-data-entry">
+                <div id="name-entry">
+                    <!-- <div>Username</div> -->
+                    <input id="name-input" class="neutral-border-off" placeholder="Enter a name">
+                    <button id="name-send" class="send-button">Send</button>
+                    <div id="name-response" class="bad-response"></div>
+                </div>
+                <div id="team-selection">
+                    <div id="team-prompt" class="entry-prompt">Choose a team</div>
+                    <div id="team-options">
+                        <button id="orange-team-button" class="team-button orange-border-off">
+                        </button>
+                        <button id="blue-team-button" class="team-button blue-border-off">
+                        </button>
+                    </div>
+                    <div id="team-response" class="bad-response"></div>
+                </div>
+                <div id="role-selection">
+                    <div id="role-prompt" class="entry-prompt">Play as hub?</div>
+                    <button id="root-button" class="team-button">
+                    </button>
+                    <div id="role-response" class="bad-response"></div>
+                </div>
+                <div id="ready-area">
+                    <!-- <div>Ready?</div> -->
+                    <button id="start-button" class="team-button">Start
+                    </button>
+                </div>
+            </div>
+
+            <div id='player-list'>
+                <div id='orange-team' class='team-list'></div>
+                <div id='blue-team' class='team-list'></div>
+            </div>
         </div>
 
     </div>
@@ -155,9 +160,9 @@
     </div>
 
     <div id="nav-bottom">
+        <button id="table-button" class="nav-button">Table</button>
         <button id="game-button" class="nav-button">Game</button>
         <button id="comms-button" class="nav-button">Comms</button>
-        <button id="table-button" class="nav-button">Table</button>
     </div>
 
     <script src="orbitals.js"></script>
