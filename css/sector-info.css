@@ -1,11 +1,8 @@
-#table-info {
-  /* height: 55%; */
+#sector-info {
   height: 100%;
   text-align: center;
   z-index: 0;
-  /* position: absolute; */
   width: 100%;
-  /* margin: 2vh; */
 }
 
 #player-data-entry {
@@ -17,7 +14,6 @@
 }
 
 #name-entry {
-  /* margin-top: 2vh; */
   margin-bottom: 2vh;
 }
 
@@ -159,9 +155,5 @@
 }
 
 @media only screen and (max-width: 800px) {
-
-  /* #table-info {
-    height: 60%;
-  } */
 
 }

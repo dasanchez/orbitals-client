@@ -1,7 +1,8 @@
 @import 'status-bar.css';
+@import 'cluster-info.css';
 @import 'word-board.css';
 @import 'message-display.css';
-@import 'table-info.css';
+@import 'sector-info.css';
 @import 'comms-area.css';
 @import 'nav-bottom.css';
 @import 'range-display.css';
@@ -111,7 +112,7 @@ body {
 }
 
 #title-text {
-    width: 70%;
+    width: 100%;
     font-size: 6vh;
     letter-spacing: 3vh;
     padding-left: 1.5vh;

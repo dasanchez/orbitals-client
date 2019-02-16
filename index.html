@@ -14,29 +14,7 @@
 
     <div id="title-container">
 
-        <div class='player-indicator'>
-            <div id="orange-hub-icon" class='hub-container'>
-                <div class='hub-indicator orange-border-on'>
-                </div>
-            </div>
-            <div id="orange-orb-icon" class='orbital-container'>
-                <div class='orbital-indicator orange-border-off'>
-                </div>
-            </div>
-        </div>
-
         <div id="title-text">ORBITALS</div>
-
-        <div class='player-indicator'>
-            <div id="blue-orb-icon" class='orbital-container'>
-                <div class='orbital-indicator blue-border-off'>
-                </div>
-            </div>
-            <div id="blue-hub-icon" class='hub-container'>
-                <div class='hub-indicator blue-border-on'>
-                </div>
-            </div>
-        </div>
 
     </div>
 
@@ -87,13 +65,17 @@
             </div>
         </div>
 
-        <div id="table-info">
+        <div id="cluster-info">
+            <div id="sector-prompt">Choose a sector</div>
+            <div id="sector-selection"></div>
+        </div>
+
+        <div id="sector-info">
             <div id="conn-container">
                 <span id="connection-status">NOT </span>
             </div>
             <div id="player-data-entry">
                 <div id="name-entry">
-                    <!-- <div>Username</div> -->
                     <input id="name-input" class="neutral-border-off" placeholder="Enter a name">
                     <button id="name-send" class="send-button">Send</button>
                     <div id="name-response" class="bad-response"></div>
@@ -160,7 +142,7 @@
     </div>
 
     <div id="nav-bottom">
-        <button id="table-button" class="nav-button">Table</button>
+        <button id="sector-button" class="nav-button">Sector</button>
         <button id="game-button" class="nav-button">Game</button>
         <button id="comms-button" class="nav-button">Comms</button>
     </div>
