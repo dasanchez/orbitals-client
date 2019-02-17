@@ -1,8 +1,8 @@
 { // UI variables
-    var orangeHubIcon = document.getElementById('orange-hub-icon'),
-        orangeOrbIcon = document.getElementById('orange-orb-icon'),
-        blueHubIcon = document.getElementById('blue-hub-icon'),
-        blueOrbIcon = document.getElementById('blue-orb-icon');
+    // var orangeHubIcon = document.getElementById('orange-hub-icon'),
+    //     orangeOrbIcon = document.getElementById('orange-orb-icon'),
+    //     blueHubIcon = document.getElementById('blue-hub-icon'),
+    //     blueOrbIcon = document.getElementById('blue-orb-icon');
 
     // status bar
     var statusBar = document.getElementById('status-bar'),
@@ -351,11 +351,11 @@ function sleep(ms) {
         // populate player list
 
         while (sectorSelection.firstChild) {
-            sectorSelection.removeChild(sectorSelection.removeChild);
+            sectorSelection.removeChild(sectorSelection.firstChild);
         }
 
         clusterData.forEach(function (element) {
-            console.log("Sector name:" + element.name);
+            // console.log("Sector name:" + element.name);
 
             // create a sector container
             var sectorContainer = document.createElement("div");
@@ -371,16 +371,46 @@ function sleep(ms) {
             sectorContainer.appendChild(sectorName);
 
             sectorOrange.className = 'sector-orange';
+            if (element.orangeHub) {
+                var orangeHubIcon = document.createElement("div");
+                orangeHubIcon.className = 'orange-hub orange-border-on';
+                sectorOrange.appendChild(orangeHubIcon);
+            }
+            for (var i = 0; i<element.orangeOrbitals;++i) {
+                var orangeOrbitalIcon = document.createElement("div");
+                orangeOrbitalIcon.className = 'orange-orbital orange-border-off';
+                sectorOrange.appendChild(orangeOrbitalIcon);
+            }
             sectorDetails.appendChild(sectorOrange);
             
             joinButton.textContent = 'Join';
             joinButton.className = 'join-button';
             
+            joinButton.onclick = async function() {
+                // send request to join sector
+                var sectorRequest = JSON.stringify({
+                    'type': 'join-sector',
+                    'sector': element.name
+                });
+                await websocket.send(sectorRequest);
+            }
+
             sectorCentre.appendChild(joinButton);
             sectorCentre.className = 'sector-centre';
             sectorDetails.appendChild(sectorCentre);
 
             sectorBlue.className = 'sector-blue';
+            for (var i = 0; i<element.blueOrbitals;++i) {
+                var blueOrbitalIcon = document.createElement("div");
+                blueOrbitalIcon.className = 'blue-orbital blue-border-off';
+                sectorBlue.appendChild(blueOrbitalIcon);
+            }
+            if (element.blueHub) {
+                var blueHubIcon = document.createElement("div");
+                blueHubIcon.className = 'blue-hub blue-border-on';
+                sectorBlue.appendChild(blueHubIcon);
+            }
+
             sectorDetails.appendChild(sectorBlue);
 
             sectorDetails.className = 'sector-details';
@@ -542,7 +572,7 @@ function sleep(ms) {
     function setupUI() {
         startStatus = {};
         startStatus['state'] = 'waiting-players';
-        startStatus['prompt'] = 'Waiting for players';
+        startStatus['prompt'] = 'Choose a sector';
         startStatus['show-hint'] = false;
         startStatus['turn'] = 'N';
         startStatus['show-turn'] = false;
@@ -627,7 +657,10 @@ function sleep(ms) {
                 break;
             case 'response':
                 {
-                    if (data.msg === 'name-accepted') {
+                    if (data.msg == 'joined-sector') {
+                        sector = data.sector;
+                        updateMainArea('sector-info');
+                    } else if (data.msg === 'name-accepted') {
                         nameInput.className = "neutral-border-off";
                         nameInput.disabled = true;
 
@@ -692,9 +725,6 @@ function sleep(ms) {
                         blueTeam.removeChild(blueTeam.firstChild);
                     };
 
-                    orangeHubIcon.style.visibility = 'hidden';
-                    blueHubIcon.style.visibility = 'hidden';
-
                     // populate player list
                     data.players.forEach(function (element) {
 
@@ -708,9 +738,6 @@ function sleep(ms) {
                         if (team === 'O') {
                             if (element.src) {
                                 containerClass = containerClass + " orange-border-on";
-                                if (playerReady) {
-                                    orangeHubIcon.style.visibility = 'visible';
-                                }
                             }
                             else {
                                 containerClass = containerClass + " orange-border-off";
@@ -718,9 +745,6 @@ function sleep(ms) {
                         } else if (team === 'B') {
                             if (element.src) {
                                 containerClass = containerClass + " blue-border-on";
-                                if (element.ready) {
-                                    blueHubIcon.style.visibility = 'visible';
-                                }
                             }
                             else {
                                 containerClass = containerClass + " blue-border-off";
@@ -783,8 +807,8 @@ function sleep(ms) {
                             updateCommsArea(data.comms);
                         }
                     } else if (data.state === 'game-over') {
-                        orangeHubIcon.style.visibility = 'hidden';
-                        blueHubIcon.style.visibility = 'hidden';
+                        // orangeHubIcon.style.visibility = 'hidden';
+                        // blueHubIcon.style.visibility = 'hidden';
                         updateStatusBar(data);
                         if (data.updateComms) {
                             updateCommsArea(data.comms);
