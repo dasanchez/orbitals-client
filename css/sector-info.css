@@ -1,11 +1,8 @@
-#table-info {
-  /* height: 55%; */
+#sector-info {
   height: 100%;
   text-align: center;
   z-index: 0;
-  /* position: absolute; */
   width: 100%;
-  /* margin: 2vh; */
 }
 
 #player-data-entry {
@@ -16,8 +13,30 @@
   font-size: 2vh;
 }
 
+#sector-area {
+    display: flex;  
+    align-items: center;
+    margin-bottom: 1vh;
+    background-color: #222;
+    padding: 1vh;
+  }
+  
+  #sector-label {
+    width: 25%;
+    text-align: right;
+    font-size: 2.4vh;
+  }
+  
+  #sector-name {
+    width: 50%;
+    background-color: #111;
+    margin: 0px 4vw 0px 2vw;
+    letter-spacing: 2px;
+    line-height: 5vh;
+    font-size: 2.4vh;
+  }
+
 #name-entry {
-  /* margin-top: 2vh; */
   margin-bottom: 2vh;
 }
 
@@ -159,9 +178,5 @@
 }
 
 @media only screen and (max-width: 800px) {
-
-  /* #table-info {
-    height: 60%;
-  } */
 
 }

@@ -18,6 +18,7 @@
 }
 
 .word-box {
+    box-sizing: border-box;
     border: 2px solid gray;
     background-color: #000;
     color: #ddd;

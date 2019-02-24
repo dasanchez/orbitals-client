@@ -1,8 +1,8 @@
 { // UI variables
-    var orangeHubIcon = document.getElementById('orange-hub-icon'),
-        orangeOrbIcon = document.getElementById('orange-orb-icon'),
-        blueHubIcon = document.getElementById('blue-hub-icon'),
-        blueOrbIcon = document.getElementById('blue-orb-icon');
+    // var orangeHubIcon = document.getElementById('orange-hub-icon'),
+    //     orangeOrbIcon = document.getElementById('orange-orb-icon'),
+    //     blueHubIcon = document.getElementById('blue-hub-icon'),
+    //     blueOrbIcon = document.getElementById('blue-orb-icon');
 
     // status bar
     var statusBar = document.getElementById('status-bar'),
@@ -15,6 +15,15 @@
         timerLabel = document.getElementById('timer'),
 
         mainArea = document.getElementById('mainArea'),
+
+        // cluster info area
+        clusterInfo = document.getElementById('cluster-info'),
+        sectorSelection = document.getElementById('sector-selection'),
+
+        // sector info area
+        currentSector = document.getElementById('sector-name'),
+        leaveButton = document.getElementById('leave-button'),
+
         // data entry area
         dataEntryArea = document.getElementById('player-data-entry'),
         nameEntry = document.getElementById('name-entry'),
@@ -28,10 +37,20 @@
         teamResponse = document.getElementById('team-response'),
         roleSelection = document.getElementById('role-selection'),
         rolePrompt = document.getElementById('role-prompt'),
-        rootButton = document.getElementById('root-button'),
+        hubButton = document.getElementById('hub-button'),
         roleResponse = document.getElementById('role-response'),
         readyArea = document.getElementById('ready-area'),
         startButton = document.getElementById('start-button'),
+
+        // sector info
+        sectorInfo = document.getElementById('sector-info'),
+        connectionStatus = document.getElementById('connection-status'),
+        playerList = document.getElementById('player-list'),
+        orangeTeam = document.getElementById('orange-team'),
+        blueTeam = document.getElementById('blue-team'),
+        userId = document.getElementById('user-id'),
+        teamId = document.getElementById('team-id'),
+        nameId = document.getElementById('name-id'),
 
         // word board
         wordBoard = document.getElementById('word-board'),
@@ -43,16 +62,6 @@
         messageContainer = document.getElementById('message-container'),
         lastMessageContainer = document.getElementById('last-message-container'),
         lastMessage = document.getElementById('last-message'),
-
-        // table info
-        tableInfo = document.getElementById('table-info'),
-        connectionStatus = document.getElementById('connection-status'),
-        playerList = document.getElementById('player-list'),
-        orangeTeam = document.getElementById('orange-team'),
-        blueTeam = document.getElementById('blue-team'),
-        userId = document.getElementById('user-id'),
-        teamId = document.getElementById('team-id'),
-        nameId = document.getElementById('name-id'),
 
         // comms area
         comms = document.getElementById('comms-area'),
@@ -69,7 +78,7 @@
         hintInput = document.getElementById('hint-input'),
         guessRange = document.getElementById('guess-range'),
         guessCount = document.getElementById('guess-count-label'),
-        rootSubmitButton = document.getElementById('root-submit-button'),
+        hubSubmitButton = document.getElementById('hub-submit-button'),
 
         // hint response
         approveButton = document.getElementById('approve-button'),
@@ -79,15 +88,17 @@
         replayButton = document.getElementById('replay-button');
 
     // nav area
+    navArea = document.getElementById('nav-bottom');
     gameButton = document.getElementById('game-button');
     commsButton = document.getElementById('comms-button');
-    tableButton = document.getElementById('table-button');
+    sectorButton = document.getElementById('sector-button');
 }
 
 { // player variables
     // var websocket = new WebSocket("ws://127.0.0.1:9001/");
     var websocket = new WebSocket("ws://localhost:9001/");
     var gameOn = false;
+    var sector = '';
 }
 
 // utility functions
@@ -101,7 +112,7 @@ function sleep(ms) {
             updateMainArea('word-board');
             gameButton.style.backgroundColor = '#333';
             commsButton.style.backgroundColor = '#111';
-            tableButton.style.backgroundColor = '#111';
+            sectorButton.style.backgroundColor = '#111';
             gameButton.blur();
         }
         // else {
@@ -109,7 +120,7 @@ function sleep(ms) {
         // }
         // gameButton.style.backgroundColor = '#333';
         // commsButton.style.backgroundColor = '#111';
-        // tableButton.style.backgroundColor = '#111';
+        // sectorButton.style.backgroundColor = '#111';
         // gameButton.blur();
     }
 
@@ -117,16 +128,23 @@ function sleep(ms) {
         updateMainArea('message-display');
         gameButton.style.backgroundColor = '#111';
         commsButton.style.backgroundColor = '#333';
-        tableButton.style.backgroundColor = '#111';
+        sectorButton.style.backgroundColor = '#111';
         commsButton.blur();
     }
 
-    tableButton.onclick = function () {
-        updateMainArea('table-info');
+    sectorButton.onclick = function () {
+        updateMainArea('sector-info');
+        
         gameButton.style.backgroundColor = '#111';
         commsButton.style.backgroundColor = '#111';
-        tableButton.style.backgroundColor = '#333';
-        tableButton.blur();
+        sectorButton.style.backgroundColor = '#333';
+        sectorButton.blur();
+    }
+
+    leaveButton.onclick = async function() {
+        await websocket.send(JSON.stringify({
+            'type': 'leave-sector'
+        }));
     }
 
     nameInput.addEventListener("keyup", async function (event) {
@@ -171,8 +189,8 @@ function sleep(ms) {
         }));
     };
 
-    rootButton.onclick = async function (event) {
-        rootButton.blur();
+    hubButton.onclick = async function (event) {
+        hubButton.blur();
         await websocket.send(JSON.stringify({
             'type': 'source-request'
         }));
@@ -202,7 +220,7 @@ function sleep(ms) {
 
     hintInput.addEventListener("keyup", function (event) {
         if (event.keyCode === 13) {
-            rootSubmitButton.click();
+            hubSubmitButton.click();
         }
     });
 
@@ -210,7 +228,7 @@ function sleep(ms) {
         guessCount.textContent = guessRange.value;
     };
 
-    rootSubmitButton.onclick = async function (event) {
+    hubSubmitButton.onclick = async function (event) {
         await websocket.send(JSON.stringify({
             'type': 'hint',
             'hint': hintInput.value,
@@ -312,13 +330,29 @@ function sleep(ms) {
             mainArea.removeChild(mainArea.firstChild);
         }
         mainArea.style.height = '57%';
+        lastMessageContainer.style.display = 'flex';
+        comms.style.display = 'flex';
+        navArea.style.display = 'flex';
         lastMessageContainer.style.visibility = 'visible';
         switch (area) {
             case 'word-board':
                 mainArea.appendChild(wordBoard);
                 break;
-            case 'table-info':
-                mainArea.appendChild(tableInfo);
+            case 'sector-info':
+                if (sector) {
+                currentSector.textContent = sector;
+                mainArea.appendChild(sectorInfo);
+                }
+                else {
+                    mainArea.appendChild(clusterInfo);
+                }
+                break;
+            case 'cluster-info':
+                mainArea.appendChild(clusterInfo);
+                mainArea.style.height = '82%';
+                lastMessageContainer.style.display = 'none';
+                comms.style.display = 'none';
+                navArea.style.display = 'none';
                 break;
             case 'message-display':
             default:
@@ -328,6 +362,102 @@ function sleep(ms) {
                 chatBox.scrollTop = chatBox.scrollHeight;
                 break;
         }
+    }
+
+    function updateSectorSelection(clusterData) {
+        // generate a sector entry for each element in clusterData
+        // populate player list
+
+        while (sectorSelection.firstChild) {
+            sectorSelection.removeChild(sectorSelection.firstChild);
+        }
+
+        clusterData.forEach(function (element) {
+            // console.log("Sector name:" + element.name);
+
+            // create a sector container
+            var sectorContainer = document.createElement("div");
+            var sectorName = document.createElement("div");
+            var sectorDetails = document.createElement("div");
+            var sectorOrange = document.createElement("div");
+            var sectorCentre = document.createElement("div");
+            var sectorBlue = document.createElement("div");
+            var joinButton = document.createElement("button");
+
+            sectorName.textContent = element.name;
+            sectorName.className = 'sector-name';
+            sectorContainer.appendChild(sectorName);
+
+            sectorOrange.className = 'sector-orange';
+            if (element.orangeHub) {
+                var orangeHubIcon = document.createElement("div");
+                orangeHubIcon.className = 'orange-hub orange-border-on';
+                sectorOrange.appendChild(orangeHubIcon);
+            }
+            for (var i = 0; i<element.orangeOrbitals;++i) {
+                var orangeOrbitalIcon = document.createElement("div");
+                orangeOrbitalIcon.className = 'orange-orbital orange-border-off';
+                sectorOrange.appendChild(orangeOrbitalIcon);
+            }
+            sectorDetails.appendChild(sectorOrange);
+            
+            joinButton.textContent = 'Join';
+            joinButton.className = 'join-button';
+            
+            joinButton.onclick = async function() {
+                // send request to join sector
+                var sectorRequest = JSON.stringify({
+                    'type': 'join-sector',
+                    'sector': element.name
+                });
+                await websocket.send(sectorRequest);
+            }
+
+            sectorCentre.appendChild(joinButton);
+            sectorCentre.className = 'sector-centre';
+            sectorDetails.appendChild(sectorCentre);
+
+            sectorBlue.className = 'sector-blue';
+            for (var i = 0; i<element.blueOrbitals;++i) {
+                var blueOrbitalIcon = document.createElement("div");
+                blueOrbitalIcon.className = 'blue-orbital blue-border-off';
+                sectorBlue.appendChild(blueOrbitalIcon);
+            }
+            if (element.blueHub) {
+                var blueHubIcon = document.createElement("div");
+                blueHubIcon.className = 'blue-hub blue-border-on';
+                sectorBlue.appendChild(blueHubIcon);
+            }
+
+            sectorDetails.appendChild(sectorBlue);
+
+            sectorDetails.className = 'sector-details';
+            
+            sectorContainer.appendChild(sectorDetails);
+
+            sectorSelection.appendChild(sectorContainer);
+            
+        });
+
+    }
+
+    function clearDataEntry() {        
+        // name input
+        nameInput.disabled = false;
+        nameInput.className = "neutral-border-off";
+        sendNameButton.style.display = 'inline';
+
+        // team input
+        teamSelection.style.display = 'block';
+        orangeTeamButton.className = "team-button orange-border-off";
+        blueTeamButton.className = "team-button blue-border-off";
+        orangeTeamButton.disabled = false;
+        blueTeamButton.disabled = false;
+
+        // role selection
+        roleSelection.style.display = 'block';
+        hubButton.className = "team-button";
+        hubButton.disabled = false;
     }
 
     function updateDataEntry(playerStatus, ready = false) {
@@ -441,7 +571,7 @@ function sleep(ms) {
     function setupUI() {
         startStatus = {};
         startStatus['state'] = 'waiting-players';
-        startStatus['prompt'] = 'Waiting for players';
+        startStatus['prompt'] = 'Choose a sector';
         startStatus['show-hint'] = false;
         startStatus['turn'] = 'N';
         startStatus['show-turn'] = false;
@@ -450,7 +580,7 @@ function sleep(ms) {
         updateStatusBar(startStatus);
         updateTimer(0);
         // main area
-        updateMainArea('table-info');
+        updateMainArea('cluster-info');
         updateDataEntry();
         if (nameResponse.parentNode === nameEntry) {
             nameEntry.removeChild(nameResponse);
@@ -467,8 +597,8 @@ function sleep(ms) {
         guessCount.textContent = guessRange.value;
 
         // nav area
-        commsButton.style.visibility = 'hidden';
-        tableButton.click();
+        // commsButton.style.visibility = 'hidden';
+        // sectorButton.click();
     }
 
     // viewport fixes and scrolling behaviour
@@ -519,15 +649,29 @@ function sleep(ms) {
         data = JSON.parse(event.data);
         console.log(data);
         switch (data.type) {
+            case 'sectors':
+                {
+                    updateSectorSelection(data.sectors);
+                    updateMainArea('cluster-info');
+                }
+                break;
             case 'response':
                 {
-                    if (data.msg === 'name-accepted') {
+                    if (data.msg == 'joined-sector') {
+                        sector = data.sector;
+                        // updateMainArea('sector-info');
+                        sectorButton.click();
+                    } else if (data.msg == 'left-sector') {
+                        sector = '';
+                        // clean up all data related to the sector we just left
+                        clearDataEntry();
+                        updateSectorSelection(data.sectors);
+                        updateMainArea('cluster-info');
+                        gamePrompt.textContent = data.prompt;
+                    } else if (data.msg === 'name-accepted') {
                         nameInput.className = "neutral-border-off";
                         nameInput.disabled = true;
-
-                        if (sendNameButton.parentNode === nameEntry) {
-                            nameEntry.removeChild(sendNameButton);
-                        }
+                        sendNameButton.style.display = 'none';
                         updateDataEntry('team-selection');
                         commsButton.style.visibility = 'visible';
                     } else if (data.msg === 'name-not-accepted') {
@@ -538,16 +682,14 @@ function sleep(ms) {
                         nameEntry.appendChild(nameResponse);
                         nameInput.focus();
                     } else if (data.msg === 'team-accepted') {
-                        if (teamSelection.parentNode === dataEntryArea) {
-                            dataEntryArea.removeChild(teamSelection);
-                        }
+                        teamSelection.style.display = 'none';
                         team = data.team;
                         if (team === 'O') {
                             nameInput.className = "orange-border-off";
-                            rootButton.className += " orange-border-on";
+                            hubButton.className += " orange-border-on";
                         } else if (team === 'B') {
                             nameInput.className = "blue-border-off";
-                            rootButton.className += " blue-border-on";
+                            hubButton.className += " blue-border-on";
                         }
                         orangeTeamButton.disabled = true;
                         blueTeamButton.disabled = true;
@@ -558,11 +700,8 @@ function sleep(ms) {
                         }
                         teamSelection.appendChild(teamResponse);
                     } else if (data.msg === 'source-accepted') {
-                        if (roleSelection.parentNode === dataEntryArea) {
-                            dataEntryArea.removeChild(roleSelection);
-                        }
-                        rootButton.style.backgroundColor = '#ddd';
-                        rootButton.disabled = true;
+                        roleSelection.style.display = 'none';
+                        hubButton.disabled = true;
                         if (team === 'O') {
                             nameInput.className += " orange-border-on";
                         } else if (team === 'B') {
@@ -586,9 +725,6 @@ function sleep(ms) {
                         blueTeam.removeChild(blueTeam.firstChild);
                     };
 
-                    orangeHubIcon.style.visibility = 'hidden';
-                    blueHubIcon.style.visibility = 'hidden';
-
                     // populate player list
                     data.players.forEach(function (element) {
 
@@ -602,9 +738,6 @@ function sleep(ms) {
                         if (team === 'O') {
                             if (element.src) {
                                 containerClass = containerClass + " orange-border-on";
-                                if (playerReady) {
-                                    orangeHubIcon.style.visibility = 'visible';
-                                }
                             }
                             else {
                                 containerClass = containerClass + " orange-border-off";
@@ -612,9 +745,6 @@ function sleep(ms) {
                         } else if (team === 'B') {
                             if (element.src) {
                                 containerClass = containerClass + " blue-border-on";
-                                if (element.ready) {
-                                    blueHubIcon.style.visibility = 'visible';
-                                }
                             }
                             else {
                                 containerClass = containerClass + " blue-border-off";
@@ -642,7 +772,7 @@ function sleep(ms) {
                         // updateMainArea('data-entry');
                         // }
                         updateStatusBar(data);
-                        updateMainArea('table-info');
+                        updateMainArea('sector-info');
                         var dataEntry = data.entry;
                         updateDataEntry(dataEntry);
                         updateCommsArea('message');
@@ -650,10 +780,10 @@ function sleep(ms) {
                         // if (gameOn) {
                         // gameOn = false;
                         // updateStatusBar(data);
-                        // updateMainArea('table-info');
+                        // updateMainArea('sector-info');
                         // }
                         updateStatusBar(data);
-                        updateMainArea('table-info');
+                        updateMainArea('sector-info');
                         var dataEntry = data.entry;
                         updateStatusBar(data);
                         updateDataEntry(dataEntry, data.ready);
@@ -677,8 +807,8 @@ function sleep(ms) {
                             updateCommsArea(data.comms);
                         }
                     } else if (data.state === 'game-over') {
-                        orangeHubIcon.style.visibility = 'hidden';
-                        blueHubIcon.style.visibility = 'hidden';
+                        // orangeHubIcon.style.visibility = 'hidden';
+                        // blueHubIcon.style.visibility = 'hidden';
                         updateStatusBar(data);
                         if (data.updateComms) {
                             updateCommsArea(data.comms);
