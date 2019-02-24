@@ -38,8 +38,6 @@
 
     <div id='mainArea'>
 
-        
-
         <div id="word-board">
             <button class="word-box" id="word1">...</button>
             <button class="word-box" id="word2">...</button>
@@ -74,6 +72,13 @@
             <div id="conn-container">
                 <span id="connection-status">NOT </span>
             </div>
+
+            <div id="sector-area">
+                <label id="sector-label">Sector</label>
+                <div id="sector-name"></div>
+                <button id="leave-button" class="send-button">Leave</button>
+              </div>
+
             <div id="player-data-entry">
                 <div id="name-entry">
                     <input id="name-input" class="neutral-border-off" placeholder="Enter a name">
@@ -92,7 +97,7 @@
                 </div>
                 <div id="role-selection">
                     <div id="role-prompt" class="entry-prompt">Play as hub?</div>
-                    <button id="root-button" class="team-button">
+                    <button id="hub-button" class="team-button">
                     </button>
                     <div id="role-response" class="bad-response"></div>
                 </div>
@@ -124,14 +129,12 @@
         </div>
 
         <div id="hint-submission-comms">
-            <!-- <div id="root-hint-label">Hint</div> -->
             <input id="hint-input" value="" placeholder="Enter hint">
             <div id="guess-container">
-                <!-- <div id="root-guesses-label">Guesses</div> -->
                 <input type="range" id="guess-range" min="1" max="4" value="2">
                 <div id="guess-count-label">2</div>
             </div>
-            <button id="root-submit-button" class="send-button">Submit</button>
+            <button id="hub-submit-button" class="send-button">Submit</button>
         </div>
 
         <div id="hint-response-comms">

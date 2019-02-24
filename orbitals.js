@@ -20,6 +20,9 @@
         clusterInfo = document.getElementById('cluster-info'),
         sectorSelection = document.getElementById('sector-selection'),
 
+        // sector info area
+        currentSector = document.getElementById('sector-name'),
+        leaveButton = document.getElementById('leave-button'),
 
         // data entry area
         dataEntryArea = document.getElementById('player-data-entry'),
@@ -34,10 +37,20 @@
         teamResponse = document.getElementById('team-response'),
         roleSelection = document.getElementById('role-selection'),
         rolePrompt = document.getElementById('role-prompt'),
-        rootButton = document.getElementById('root-button'),
+        hubButton = document.getElementById('hub-button'),
         roleResponse = document.getElementById('role-response'),
         readyArea = document.getElementById('ready-area'),
         startButton = document.getElementById('start-button'),
+
+        // sector info
+        sectorInfo = document.getElementById('sector-info'),
+        connectionStatus = document.getElementById('connection-status'),
+        playerList = document.getElementById('player-list'),
+        orangeTeam = document.getElementById('orange-team'),
+        blueTeam = document.getElementById('blue-team'),
+        userId = document.getElementById('user-id'),
+        teamId = document.getElementById('team-id'),
+        nameId = document.getElementById('name-id'),
 
         // word board
         wordBoard = document.getElementById('word-board'),
@@ -49,16 +62,6 @@
         messageContainer = document.getElementById('message-container'),
         lastMessageContainer = document.getElementById('last-message-container'),
         lastMessage = document.getElementById('last-message'),
-
-        // sector info
-        sectorInfo = document.getElementById('sector-info'),
-        connectionStatus = document.getElementById('connection-status'),
-        playerList = document.getElementById('player-list'),
-        orangeTeam = document.getElementById('orange-team'),
-        blueTeam = document.getElementById('blue-team'),
-        userId = document.getElementById('user-id'),
-        teamId = document.getElementById('team-id'),
-        nameId = document.getElementById('name-id'),
 
         // comms area
         comms = document.getElementById('comms-area'),
@@ -75,7 +78,7 @@
         hintInput = document.getElementById('hint-input'),
         guessRange = document.getElementById('guess-range'),
         guessCount = document.getElementById('guess-count-label'),
-        rootSubmitButton = document.getElementById('root-submit-button'),
+        hubSubmitButton = document.getElementById('hub-submit-button'),
 
         // hint response
         approveButton = document.getElementById('approve-button'),
@@ -85,6 +88,7 @@
         replayButton = document.getElementById('replay-button');
 
     // nav area
+    navArea = document.getElementById('nav-bottom');
     gameButton = document.getElementById('game-button');
     commsButton = document.getElementById('comms-button');
     sectorButton = document.getElementById('sector-button');
@@ -137,6 +141,12 @@ function sleep(ms) {
         sectorButton.blur();
     }
 
+    leaveButton.onclick = async function() {
+        await websocket.send(JSON.stringify({
+            'type': 'leave-sector'
+        }));
+    }
+
     nameInput.addEventListener("keyup", async function (event) {
         if (event.keyCode === 13) {
             nameInput.blur();
@@ -179,8 +189,8 @@ function sleep(ms) {
         }));
     };
 
-    rootButton.onclick = async function (event) {
-        rootButton.blur();
+    hubButton.onclick = async function (event) {
+        hubButton.blur();
         await websocket.send(JSON.stringify({
             'type': 'source-request'
         }));
@@ -210,7 +220,7 @@ function sleep(ms) {
 
     hintInput.addEventListener("keyup", function (event) {
         if (event.keyCode === 13) {
-            rootSubmitButton.click();
+            hubSubmitButton.click();
         }
     });
 
@@ -218,7 +228,7 @@ function sleep(ms) {
         guessCount.textContent = guessRange.value;
     };
 
-    rootSubmitButton.onclick = async function (event) {
+    hubSubmitButton.onclick = async function (event) {
         await websocket.send(JSON.stringify({
             'type': 'hint',
             'hint': hintInput.value,
@@ -320,6 +330,9 @@ function sleep(ms) {
             mainArea.removeChild(mainArea.firstChild);
         }
         mainArea.style.height = '57%';
+        lastMessageContainer.style.display = 'flex';
+        comms.style.display = 'flex';
+        navArea.style.display = 'flex';
         lastMessageContainer.style.visibility = 'visible';
         switch (area) {
             case 'word-board':
@@ -327,6 +340,7 @@ function sleep(ms) {
                 break;
             case 'sector-info':
                 if (sector) {
+                currentSector.textContent = sector;
                 mainArea.appendChild(sectorInfo);
                 }
                 else {
@@ -335,6 +349,10 @@ function sleep(ms) {
                 break;
             case 'cluster-info':
                 mainArea.appendChild(clusterInfo);
+                mainArea.style.height = '82%';
+                lastMessageContainer.style.display = 'none';
+                comms.style.display = 'none';
+                navArea.style.display = 'none';
                 break;
             case 'message-display':
             default:
@@ -419,46 +437,27 @@ function sleep(ms) {
 
             sectorSelection.appendChild(sectorContainer);
             
-            
-            // var playerEntry = document.createElement("div");
-            // var playerName = document.createElement("div");
-            // var containerClass = "player-entry";
-            // var playerReady = element.ready;
-            // var team = element.team;
-            // playerEntry.appendChild(playerName);
-
-            // if (team === 'O') {
-            //     if (element.src) {
-            //         containerClass = containerClass + " orange-border-on";
-            //         if (playerReady) {
-            //             orangeHubIcon.style.visibility = 'visible';
-            //         }
-            //     }
-            //     else {
-            //         containerClass = containerClass + " orange-border-off";
-            //     }
-            // } else if (team === 'B') {
-            //     if (element.src) {
-            //         containerClass = containerClass + " blue-border-on";
-            //         if (element.ready) {
-            //             blueHubIcon.style.visibility = 'visible';
-            //         }
-            //     }
-            //     else {
-            //         containerClass = containerClass + " blue-border-off";
-            //     }
-            // } else {
-            //     containerClass = containerClass + " neutral-border-off";
-            // }
-            // playerEntry.setAttribute("class", containerClass);
-            // playerName.setAttribute("class", "player-name");
-            // playerName.innerHTML = element.name;
-            // if (team === 'B')
-            //     blueTeam.appendChild(playerEntry);
-            // else if (team === 'O')
-            //     orangeTeam.appendChild(playerEntry);
         });
 
+    }
+
+    function clearDataEntry() {        
+        // name input
+        nameInput.disabled = false;
+        nameInput.className = "neutral-border-off";
+        sendNameButton.style.display = 'inline';
+
+        // team input
+        teamSelection.style.display = 'block';
+        orangeTeamButton.className = "team-button orange-border-off";
+        blueTeamButton.className = "team-button blue-border-off";
+        orangeTeamButton.disabled = false;
+        blueTeamButton.disabled = false;
+
+        // role selection
+        roleSelection.style.display = 'block';
+        hubButton.className = "team-button";
+        hubButton.disabled = false;
     }
 
     function updateDataEntry(playerStatus, ready = false) {
@@ -598,8 +597,8 @@ function sleep(ms) {
         guessCount.textContent = guessRange.value;
 
         // nav area
-        commsButton.style.visibility = 'hidden';
-        sectorButton.click();
+        // commsButton.style.visibility = 'hidden';
+        // sectorButton.click();
     }
 
     // viewport fixes and scrolling behaviour
@@ -653,20 +652,26 @@ function sleep(ms) {
             case 'sectors':
                 {
                     updateSectorSelection(data.sectors);
+                    updateMainArea('cluster-info');
                 }
                 break;
             case 'response':
                 {
                     if (data.msg == 'joined-sector') {
                         sector = data.sector;
-                        updateMainArea('sector-info');
+                        // updateMainArea('sector-info');
+                        sectorButton.click();
+                    } else if (data.msg == 'left-sector') {
+                        sector = '';
+                        // clean up all data related to the sector we just left
+                        clearDataEntry();
+                        updateSectorSelection(data.sectors);
+                        updateMainArea('cluster-info');
+                        gamePrompt.textContent = data.prompt;
                     } else if (data.msg === 'name-accepted') {
                         nameInput.className = "neutral-border-off";
                         nameInput.disabled = true;
-
-                        if (sendNameButton.parentNode === nameEntry) {
-                            nameEntry.removeChild(sendNameButton);
-                        }
+                        sendNameButton.style.display = 'none';
                         updateDataEntry('team-selection');
                         commsButton.style.visibility = 'visible';
                     } else if (data.msg === 'name-not-accepted') {
@@ -677,16 +682,14 @@ function sleep(ms) {
                         nameEntry.appendChild(nameResponse);
                         nameInput.focus();
                     } else if (data.msg === 'team-accepted') {
-                        if (teamSelection.parentNode === dataEntryArea) {
-                            dataEntryArea.removeChild(teamSelection);
-                        }
+                        teamSelection.style.display = 'none';
                         team = data.team;
                         if (team === 'O') {
                             nameInput.className = "orange-border-off";
-                            rootButton.className += " orange-border-on";
+                            hubButton.className += " orange-border-on";
                         } else if (team === 'B') {
                             nameInput.className = "blue-border-off";
-                            rootButton.className += " blue-border-on";
+                            hubButton.className += " blue-border-on";
                         }
                         orangeTeamButton.disabled = true;
                         blueTeamButton.disabled = true;
@@ -697,11 +700,8 @@ function sleep(ms) {
                         }
                         teamSelection.appendChild(teamResponse);
                     } else if (data.msg === 'source-accepted') {
-                        if (roleSelection.parentNode === dataEntryArea) {
-                            dataEntryArea.removeChild(roleSelection);
-                        }
-                        rootButton.style.backgroundColor = '#ddd';
-                        rootButton.disabled = true;
+                        roleSelection.style.display = 'none';
+                        hubButton.disabled = true;
                         if (team === 'O') {
                             nameInput.className += " orange-border-on";
                         } else if (team === 'B') {
