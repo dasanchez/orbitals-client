@@ -21,33 +21,26 @@
     padding: 1vh;
   }
   
-  #sector-label {
-    width: 25%;
-    text-align: right;
-    font-size: 2.4vh;
-  }
-  
-  #sector-name {
-    width: 50%;
-    background-color: #111;
-    margin: 0px 4vw 0px 2vw;
-    letter-spacing: 2px;
-    line-height: 5vh;
-    font-size: 2.4vh;
+.sector-info-label {
+  width: 6%;
+    text-align: center;
+    font-size: 1.8vh;
   }
 
-#name-entry {
-  margin-bottom: 2vh;
+.sector-data {
+  background-color: #111;
+  margin: 0px 2vw 0px 2vw;
+  letter-spacing: 1px;
+  line-height: 5vh;
+  font-size: 2.2vh; 
 }
 
-#name-input {
-  margin-top: 1vh;
-  font-size: 2.4vh;
-  line-height: 5vh;
-  text-align: center;
-  color: #fff;
-  background-color: inherit;
-  border-radius: 5px;
+#player-name {
+  width: 40%;
+}
+  
+#sector-name {
+  width: 40%;
 }
 
 .bad-response {

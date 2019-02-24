@@ -18,6 +18,11 @@
 
         // cluster info area
         clusterInfo = document.getElementById('cluster-info'),
+        nameEntry = document.getElementById('name-entry'),
+        nameInput = document.getElementById('name-input'),
+        sendNameButton = document.getElementById('name-send'),
+        nameResponse = document.getElementById('name-response'),
+        userName = document.getElementById('player-name'),
         sectorSelection = document.getElementById('sector-selection'),
 
         // sector info area
@@ -26,10 +31,6 @@
 
         // data entry area
         dataEntryArea = document.getElementById('player-data-entry'),
-        nameEntry = document.getElementById('name-entry'),
-        nameInput = document.getElementById('name-input'),
-        sendNameButton = document.getElementById('name-send'),
-        nameResponse = document.getElementById('name-response'),
         teamSelection = document.getElementById('team-selection'),
         teamPrompt = document.getElementById('team-prompt'),
         orangeTeamButton = document.getElementById('orange-team-button'),
@@ -443,9 +444,9 @@ function sleep(ms) {
 
     function clearDataEntry() {        
         // name input
-        nameInput.disabled = false;
-        nameInput.className = "neutral-border-off";
-        sendNameButton.style.display = 'inline';
+        // nameInput.disabled = false;
+        // nameInput.className = "neutral-border-off";
+        // sendNameButton.style.display = 'inline';
 
         // team input
         teamSelection.style.display = 'block';
@@ -461,15 +462,15 @@ function sleep(ms) {
     }
 
     function updateDataEntry(playerStatus, ready = false) {
-        nameEntry.style.visibility = 'hidden';
+        // nameEntry.style.visibility = 'hidden';
         teamSelection.style.visibility = 'hidden';
         roleSelection.style.visibility = 'hidden';
         readyArea.style.visibility = 'hidden';
         switch (playerStatus) {
-            case 'name-entry':
-                nameEntry.style.visibility = 'visible';
-                nameInput.focus();
-                break;
+            // case 'name-entry':
+                // nameEntry.style.visibility = 'visible';
+                // nameInput.focus();
+                // break;
             case 'team-selection':
                 nameEntry.style.visibility = 'visible';
                 teamSelection.style.visibility = 'visible';
@@ -570,8 +571,8 @@ function sleep(ms) {
 
     function setupUI() {
         startStatus = {};
-        startStatus['state'] = 'waiting-players';
-        startStatus['prompt'] = 'Choose a sector';
+        // startStatus['state'] = 'waiting-players';
+        // startStatus['prompt'] = 'Choose a sector';
         startStatus['show-hint'] = false;
         startStatus['turn'] = 'N';
         startStatus['show-turn'] = false;
@@ -649,6 +650,9 @@ function sleep(ms) {
         data = JSON.parse(event.data);
         console.log(data);
         switch (data.type) {
+            case 'welcome':
+            gamePrompt.textContent = data.prompt;
+            break;
             case 'sectors':
                 {
                     updateSectorSelection(data.sectors);
@@ -672,8 +676,11 @@ function sleep(ms) {
                         nameInput.className = "neutral-border-off";
                         nameInput.disabled = true;
                         sendNameButton.style.display = 'none';
-                        updateDataEntry('team-selection');
-                        commsButton.style.visibility = 'visible';
+                        userName.textContent = data.name;
+                        // updateDataEntry('team-selection');
+                        gamePrompt.textContent = data.prompt;
+                        updateSectorSelection(data.sectors);
+                        // commsButton.style.visibility = 'visible';
                     } else if (data.msg === 'name-not-accepted') {
                         nameResponse.textContent = data.reason;
                         if (nameResponse.parentNode === nameEntry) {
@@ -685,10 +692,10 @@ function sleep(ms) {
                         teamSelection.style.display = 'none';
                         team = data.team;
                         if (team === 'O') {
-                            nameInput.className = "orange-border-off";
+                            // nameInput.className = "orange-border-off";
                             hubButton.className += " orange-border-on";
                         } else if (team === 'B') {
-                            nameInput.className = "blue-border-off";
+                            // nameInput.className = "blue-border-off";
                             hubButton.className += " blue-border-on";
                         }
                         orangeTeamButton.disabled = true;
@@ -702,11 +709,11 @@ function sleep(ms) {
                     } else if (data.msg === 'source-accepted') {
                         roleSelection.style.display = 'none';
                         hubButton.disabled = true;
-                        if (team === 'O') {
-                            nameInput.className += " orange-border-on";
-                        } else if (team === 'B') {
-                            nameInput.className += " blue-border-on";
-                        }
+                        // if (team === 'O') {
+                        //     nameInput.className += " orange-border-on";
+                        // } else if (team === 'B') {
+                        //     nameInput.className += " blue-border-on";
+                        // }
                     } else if (data.msg === 'source-rejected') {
                         roleResponse.textContent = data.reason;
                         if (roleResponse.parentNode === roleSelection) {
@@ -772,7 +779,8 @@ function sleep(ms) {
                         // updateMainArea('data-entry');
                         // }
                         updateStatusBar(data);
-                        updateMainArea('sector-info');
+                        sectorButton.click();
+                        // updateMainArea('sector-info');
                         var dataEntry = data.entry;
                         updateDataEntry(dataEntry);
                         updateCommsArea('message');
