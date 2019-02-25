@@ -269,6 +269,17 @@ function sleep(ms) {
 }
 
 { // layout content management
+    function clearStatusBar() {
+        gamePrompt.textContent = '';
+        guessInfoArea.style.visibility = 'hidden';
+        
+        if (turnContainer.parentNode === statusBar) {
+            statusBar.removeChild(turnContainer);
+            stateContainer.style.width = '100%';
+        }
+    }
+
+
     function updateStatusBar(status) {
         // status will contain (as applicable):
         // game state
@@ -597,6 +608,7 @@ function sleep(ms) {
         updateCommsArea(startStatus['comms']);
         guessCount.textContent = guessRange.value;
 
+        nameInput.focus();
         // nav area
         // commsButton.style.visibility = 'hidden';
         // sectorButton.click();
@@ -668,6 +680,7 @@ function sleep(ms) {
                     } else if (data.msg == 'left-sector') {
                         sector = '';
                         // clean up all data related to the sector we just left
+                        clearStatusBar();
                         clearDataEntry();
                         updateSectorSelection(data.sectors);
                         updateMainArea('cluster-info');
