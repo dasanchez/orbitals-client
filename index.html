@@ -25,9 +25,9 @@
             </div>
             <div id="state-bottom-half">
                 <div id="hint-label">Hint</div>
-                <div id="current-hint">fruit</div>
+                <div id="current-hint"></div>
                 <div id="guesses-label">Guesses</div>
-                <div id="guesses-left">2</div>
+                <div id="guesses-left"></div>
             </div>
 
         </div>
@@ -37,6 +37,19 @@
     </div>
 
     <div id='mainArea'>
+
+        <div id="cluster-info">
+            <!-- <div id="sector-prompt">Choose a sector</div> -->
+            <div id="conn-container">
+                <span id="connection-status">NOT </span>
+            </div>
+            <div id="name-entry">
+                <input id="name-input" class="neutral-border-off" placeholder="Enter a name">
+                <button id="name-send" class="send-button">Send</button>
+                <div id="name-response" class="bad-response"></div>
+            </div>
+            <div id="sector-selection"></div>
+        </div>
 
         <div id="word-board">
             <button class="word-box" id="word1">...</button>
@@ -63,28 +76,21 @@
             </div>
         </div>
 
-        <div id="cluster-info">
-            <!-- <div id="sector-prompt">Choose a sector</div> -->
-            <div id="sector-selection"></div>
-        </div>
-
         <div id="sector-info">
-            <div id="conn-container">
-                <span id="connection-status">NOT </span>
-            </div>
 
             <div id="sector-area">
-                <label id="sector-label">Sector</label>
-                <div id="sector-name"></div>
+                <div class="sector-label">
+                    <div id="player-name" class="sector-data"></div>
+                    <label class="sector-info-label">Name</label>
+                </div>
+                <div class="sector-label">
+                    <div id="sector-name" class="sector-data"></div>
+                    <label class="sector-info-label">Sector</label>
+                </div>
                 <button id="leave-button" class="send-button">Leave</button>
-              </div>
+            </div>
 
             <div id="player-data-entry">
-                <div id="name-entry">
-                    <input id="name-input" class="neutral-border-off" placeholder="Enter a name">
-                    <button id="name-send" class="send-button">Send</button>
-                    <div id="name-response" class="bad-response"></div>
-                </div>
                 <div id="team-selection">
                     <div id="team-prompt" class="entry-prompt">Choose a team</div>
                     <div id="team-options">

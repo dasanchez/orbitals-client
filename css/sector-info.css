@@ -18,37 +18,56 @@
     align-items: center;
     margin-bottom: 1vh;
     background-color: #222;
-    padding: 1vh;
+    padding: 1vh 1vh 1vh 1vh;
   }
   
-  #sector-label {
-    width: 25%;
-    text-align: right;
-    font-size: 2.4vh;
-  }
-  
-  #sector-name {
-    width: 50%;
-    background-color: #111;
-    margin: 0px 4vw 0px 2vw;
-    letter-spacing: 2px;
-    line-height: 5vh;
-    font-size: 2.4vh;
-  }
-
-#name-entry {
-  margin-bottom: 2vh;
+.sector-label {
+  width: 40%;
+  position: relative;
+  background-color: black;
+  margin-right: 1vh;
+  border: 1px solid #333;
 }
 
-#name-input {
-  margin-top: 1vh;
+.sector-info-label {
+  position: absolute;
+  top: 0.2vh;
+  left: 0.5vh;
+  font-size: 1.6vh;
+}
+
+.sector-data {
+  position: relative;
+  top: 1vh;
+  line-height: 6vh;
   font-size: 2.4vh;
-  line-height: 5vh;
-  text-align: center;
-  color: #fff;
-  background-color: inherit;
-  border-radius: 5px;
 }
+
+#leave-button {
+  width: 20%;
+}
+
+/* .sector-info-label {
+  width: 6%;
+    text-align: center;
+    font-size: 1.8vh;
+  } */
+
+/* .sector-data {
+  background-color: #111;
+  margin: 0px 2vw 0px 2vw;
+  letter-spacing: 1px;
+  line-height: 5vh;
+  font-size: 2.2vh; 
+} */
+
+/* #player-name {
+  width: 40%;
+} */
+  
+/* #sector-name {
+  width: 40%;
+} */
 
 .bad-response {
   margin-top: 1vh;
