@@ -193,7 +193,7 @@ function sleep(ms) {
     hubButton.onclick = async function (event) {
         hubButton.blur();
         await websocket.send(JSON.stringify({
-            'type': 'source-request'
+            'type': 'hub-request'
         }));
     };
 
@@ -483,16 +483,16 @@ function sleep(ms) {
                 // nameInput.focus();
                 // break;
             case 'team-selection':
-                nameEntry.style.visibility = 'visible';
+                // nameEntry.style.visibility = 'visible';
                 teamSelection.style.visibility = 'visible';
                 break;
             case 'role-selection':
-                nameEntry.style.visibility = 'visible';
+                // nameEntry.style.visibility = 'visible';
                 teamSelection.style.visibility = 'visible';
                 roleSelection.style.visibility = 'visible';
                 break;
             case 'ready-area':
-                nameEntry.style.visibility = 'visible';
+                // nameEntry.style.visibility = 'visible';
                 teamSelection.style.visibility = 'visible';
                 roleSelection.style.visibility = 'visible';
                 readyArea.style.visibility = 'visible';
@@ -702,32 +702,40 @@ function sleep(ms) {
                         nameEntry.appendChild(nameResponse);
                         nameInput.focus();
                     } else if (data.msg === 'team-accepted') {
-                        teamSelection.style.display = 'none';
+                        // teamSelection.style.display = 'none';
                         team = data.team;
                         if (team === 'O') {
                             // nameInput.className = "orange-border-off";
-                            hubButton.className += " orange-border-on";
+                            hubButton.className = "team-button orange-border-on";
                         } else if (team === 'B') {
                             // nameInput.className = "blue-border-off";
-                            hubButton.className += " blue-border-on";
+                            hubButton.className = "team-button blue-border-on";
                         }
-                        orangeTeamButton.disabled = true;
-                        blueTeamButton.disabled = true;
+                        // orangeTeamButton.disabled = true;
+                        // blueTeamButton.disabled = true;
                     } else if (data.msg === 'team-rejected') {
                         teamResponse.textContent = data.reason;
                         if (teamResponse.parentNode === teamSelection) {
                             teamSelection.removeChild(teamResponse);
                         }
                         teamSelection.appendChild(teamResponse);
-                    } else if (data.msg === 'source-accepted') {
-                        roleSelection.style.display = 'none';
-                        hubButton.disabled = true;
+                    } else if (data.msg === 'hub-on') {
+                        // roleSelection.style.display = 'none';
+                        // hubButton.disabled = true;
                         // if (team === 'O') {
-                        //     nameInput.className += " orange-border-on";
+                            // nameInput.className += " orange-border-on";
                         // } else if (team === 'B') {
-                        //     nameInput.className += " blue-border-on";
+                            // nameInput.className += " blue-border-on";
                         // }
-                    } else if (data.msg === 'source-rejected') {
+                        rolePrompt.textContent = "Playing as hub"
+                    } else if (data.msg === 'hub-off') {
+                        // if (team === 'O') {
+                            // nameInput.className = " orange-border-on";
+                        // } else if (team === 'B') {
+                            // nameInput.className += " blue-border-on";
+                        // }
+                        rolePrompt.textContent = "Play as  hub?"
+                    } else if (data.msg === 'hub-rejected') {
                         roleResponse.textContent = data.reason;
                         if (roleResponse.parentNode === roleSelection) {
                             roleSelection.removeChild(roleResponse);

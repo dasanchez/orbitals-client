@@ -90,32 +90,34 @@
                 <button id="leave-button" class="send-button">Leave</button>
             </div>
 
-            <div id="player-data-entry">
-                <div id="team-selection">
-                    <div id="team-prompt" class="entry-prompt">Choose a team</div>
-                    <div id="team-options">
-                        <button id="orange-team-button" class="team-button orange-border-off">
+            <div id='player-list'>
+
+                <div id='orange-team' class='team-list'></div>
+
+                <div id="player-data-entry">
+                    <div id="team-selection">
+                        <div id="team-prompt" class="entry-prompt">Choose a team</div>
+                        <div id="team-options">
+                            <button id="orange-team-button" class="team-button orange-border-off">
+                            </button>
+                            <button id="blue-team-button" class="team-button blue-border-off">
+                            </button>
+                        </div>
+                        <div id="team-response" class="bad-response"></div>
+                    </div>
+                    <div id="role-selection">
+                        <div id="role-prompt" class="entry-prompt">Play as hub?</div>
+                        <button id="hub-button" class="team-button">
                         </button>
-                        <button id="blue-team-button" class="team-button blue-border-off">
+                        <div id="role-response" class="bad-response"></div>
+                    </div>
+                    <div id="ready-area">
+                        <!-- <div>Ready?</div> -->
+                        <button id="start-button" class="send-button neutral-border-on">Start
                         </button>
                     </div>
-                    <div id="team-response" class="bad-response"></div>
                 </div>
-                <div id="role-selection">
-                    <div id="role-prompt" class="entry-prompt">Play as hub?</div>
-                    <button id="hub-button" class="team-button">
-                    </button>
-                    <div id="role-response" class="bad-response"></div>
-                </div>
-                <div id="ready-area">
-                    <!-- <div>Ready?</div> -->
-                    <button id="start-button" class="team-button">Start
-                    </button>
-                </div>
-            </div>
 
-            <div id='player-list'>
-                <div id='orange-team' class='team-list'></div>
                 <div id='blue-team' class='team-list'></div>
             </div>
         </div>
