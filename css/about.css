@@ -1,0 +1,93 @@
+#menu-icon-container {
+  box-sizing: border-box;
+  width: 10%;
+  display: flex;
+  align-items: center;
+  /* box-sizing: border-box; */
+  padding-left: 1vh;
+  /* margin-left: 1vh; */
+/*   flex-direction: column;   */
+}
+
+#about-button {
+  background-color: #444;
+/*   background-color: inherit; */
+  color: #ddd;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 3vh;
+  margin: 0 auto;
+  font-size: 2.4vh;
+/*   border: none; */
+  border: 1px solid #888; 
+  width: 5vh;
+  height: 5vh;
+}
+
+.title-spacer {
+  width: 10%;
+}
+
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
+  }
+  
+  .overlay .closebtn {
+    position: absolute;
+    top: 0vh;
+    right: 3vh;
+    font-size: 6vh;
+  }
+  
+  .overlay-content {
+    position: relative;
+  /*   top: 10%; */
+    width: 100%;
+    text-align: center;
+    margin-top: 6vh;
+  }
+  
+  .overlay a {
+  /*   padding: 8px; */
+    text-decoration: none;
+  /*   font-size: 36px; */
+    color: #888;
+  /*   display: block; */
+    transition: 0.3s;
+  }
+  
+  .overlay ol {
+  /*   margin: 0 auto; */
+  /*   margin-left: 25vw; */
+    text-align: left;
+  }
+  
+  .instructions {
+    text-align: center;
+    margin: 0 auto;
+    width: 60%;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* .overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  } */
+  
+  .overlay a:hover, .overlay a:focus {
+    color: #fff;
+  }

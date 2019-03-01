@@ -269,6 +269,14 @@ function sleep(ms) {
 }
 
 { // layout content management
+    function openNav() {
+        document.getElementById("about").style.width = "100%";
+    }
+      
+      function closeNav() {
+        document.getElementById("about").style.width = "0%";
+    }
+
     function clearStatusBar() {
         gamePrompt.textContent = '';
         guessInfoArea.style.visibility = 'hidden';

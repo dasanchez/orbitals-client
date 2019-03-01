@@ -1,3 +1,4 @@
+@import 'about.css';
 @import 'status-bar.css';
 @import 'cluster-info.css';
 @import 'word-board.css';
@@ -29,7 +30,7 @@ body {
     display: flex;
 }
 
-.player-indicator {
+/* .player-indicator {
     width: 15%;
     display: flex;
     align-items: center;
@@ -72,7 +73,7 @@ body {
 
 #blue-orb-icon {
     visibility: hidden;
-}
+} */
 
 .orange-border-off {
     box-sizing: border-box;
@@ -112,10 +113,11 @@ body {
 }
 
 #title-text {
-    width: 100%;
+    width: 80%;
+    /* margin-left: -10%; */
     font-size: 6vh;
     letter-spacing: 3vh;
-    padding-left: 1.5vh;
+    /* padding-left: 1.5vh; */
     font-weight: 600;
     text-align: center;
     align-self: center;
@@ -138,10 +140,10 @@ body {
 @media only screen and (max-width: 800px) {
 
     #title-text {
-        box-sizing: border-box;
+        /* box-sizing: border-box; */
         font-size: 4vh;
         letter-spacing: 2vh;
-        padding-left: 1vh;
+        /* padding-left: 1vh; */
         font-weight: 600;
         animation-name: open-title;
     }

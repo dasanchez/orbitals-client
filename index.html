@@ -12,10 +12,38 @@
 
 <body>
 
+    <div id="about" class="overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="overlay-content">
+            <h2>ORBITALS</h2>
+            <p>A word association game by <a href="https://github.com/dasanchez/orbitals-client">@dasanchez</a></p>
+
+            <div class="instructions">
+                <h3>Instructions</h3>
+                <ol>
+                    <li>Enter your name</li>
+                    <li>Join a sector</li>
+                    <li>Choose a team</li>
+                </ol>
+                To play as hub:
+                <ol start="4">
+                    <li>Select the hub role</li>
+                    <li>Press Start when ready</li>
+                </ol>
+            </div>
+
+            <p><a href="https://urra.ca">Visit urra.ca</a></p>
+
+        </div>
+    </div>
+
     <div id="title-container">
 
+        <div id="menu-icon-container">
+            <button id="about-button" onclick="openNav()">O</button>
+        </div>
         <div id="title-text">ORBITALS</div>
-
+        <div class="title-spacer"></div>
     </div>
 
     <div id="status-bar">
