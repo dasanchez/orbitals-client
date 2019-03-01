@@ -472,7 +472,7 @@ function sleep(ms) {
         hubButton.disabled = false;
     }
 
-    function updateDataEntry(playerStatus, ready = false) {
+    function updateDataEntry(playerStatus, hub = false, ready = false) {
         // nameEntry.style.visibility = 'hidden';
         teamSelection.style.visibility = 'hidden';
         roleSelection.style.visibility = 'hidden';
@@ -490,6 +490,12 @@ function sleep(ms) {
                 // nameEntry.style.visibility = 'visible';
                 teamSelection.style.visibility = 'visible';
                 roleSelection.style.visibility = 'visible';
+                if (hub) {
+                    rolePrompt.textContent = 'Playing as hub';
+                }
+                else {
+                    rolePrompt.textContent = 'Play as hub?';
+                }
                 break;
             case 'ready-area':
                 // nameEntry.style.visibility = 'visible';
@@ -764,14 +770,14 @@ function sleep(ms) {
                         playerEntry.appendChild(playerName);
 
                         if (team === 'O') {
-                            if (element.src) {
+                            if (element.hub) {
                                 containerClass = containerClass + " orange-border-on";
                             }
                             else {
                                 containerClass = containerClass + " orange-border-off";
                             }
                         } else if (team === 'B') {
-                            if (element.src) {
+                            if (element.hub) {
                                 containerClass = containerClass + " blue-border-on";
                             }
                             else {
@@ -802,8 +808,11 @@ function sleep(ms) {
                         updateStatusBar(data);
                         sectorButton.click();
                         // updateMainArea('sector-info');
+                        orangeTeam.style.width = '32%';
+                        blueTeam.style.width = '32%';
+                        dataEntryArea.style.display = 'block';
                         var dataEntry = data.entry;
-                        updateDataEntry(dataEntry);
+                        updateDataEntry(dataEntry, data.hub, data.ready);
                         updateCommsArea('message');
                     } else if (state === 'waiting-start') {
                         // if (gameOn) {
@@ -812,13 +821,29 @@ function sleep(ms) {
                         // updateMainArea('sector-info');
                         // }
                         updateStatusBar(data);
-                        updateMainArea('sector-info');
+                        sectorButton.click();
+                        // updateMainArea('sector-info');
+                        orangeTeam.style.width = '32%';
+                        blueTeam.style.width = '32%';
+                        dataEntryArea.style.display = 'block';
                         var dataEntry = data.entry;
-                        updateStatusBar(data);
-                        updateDataEntry(dataEntry, data.ready);
+                        updateDataEntry(dataEntry, data.hub, data.ready);
                     } else if (state === 'game-start') {
                         gameOn = true;
                         updateStatusBar(data);
+                        // deactivate team, role, and start buttons
+                        orangeTeamButton.disabled = true;
+                        blueTeamButton.disabled = true;
+                        hubButton.disabled = true;
+                        startButton.disabled = true;
+                        // dataEntryArea.style.visibility = 'hidden';
+                        // teamSelection.style.visibility = 'hidden';
+                        // roleSelection.style.visibility = 'hidden';
+                        // readyArea.style.visibility = 'hidden';
+                        dataEntryArea.style.display = 'none';
+                        orangeTeam.style.width = '50%';
+                        blueTeam.style.width = '50%';
+
                         updateMainArea('word-board');
                         if (data.updateComms == true)
                             updateCommsArea(data.comms)
@@ -838,13 +863,19 @@ function sleep(ms) {
                     } else if (data.state === 'game-over') {
                         // orangeHubIcon.style.visibility = 'hidden';
                         // blueHubIcon.style.visibility = 'hidden';
+                        
                         updateStatusBar(data);
                         if (data.updateComms) {
                             updateCommsArea(data.comms);
                         }
-                        startButton.style.backgroundColor = 'inherit';
-                        startButton.style.color = '#ddd';
-                        startButton.disabled = false;
+                        // startButton.style.backgroundColor = 'inherit';
+                        // startButton.style.color = '#ddd';
+                        // startButton.disabled = false;
+                        // reactivate team, role, and start buttons
+                        orangeTeamButton.disabled = false;
+                        blueTeamButton.disabled = false;
+                        hubButton.disabled = false;
+                        // dataEntryArea.style.display = 'visible';
                     }
                 }
                 break;
