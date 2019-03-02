@@ -3,17 +3,12 @@
   width: 6vh;
   display: flex;
   align-items: center;
-  /* box-sizing: border-box; */
-  /* padding-left: 1vh; */
-  /* margin-left: 1vh; */
-  /*   flex-direction: column;   */
   position: absolute;
   top: 1.5vh;
   right: 1vh;
 }
 
 #about-button {
-  /* background-color: #333; */
   background-color: inherit;
   color: #ddd;
   border-radius: 2.5vh;
@@ -21,12 +16,9 @@
   line-height: 3vh;
   margin: 0 auto;
   font-size: 2.4vh;
-/*   border: none; */
   border: 2px solid #555; 
   width: 5vh;
   height: 5vh;
-  /* font-style: italic; */
-  /* font-weight: 800; */
   box-shadow: inset 0 0 20px 3px #555,
   inset 0 3px 5px 1px #ddd;
 }
@@ -38,7 +30,6 @@
 h2 {
   letter-spacing: 1vh;
 }
-
 
 .overlay {
     height: 100%;
@@ -53,55 +44,49 @@ h2 {
     transition: 0.5s;
   }
   
-  .overlay .closebtn {
-    position: absolute;
-    top: 0vh;
-    right: 3vh;
-    font-size: 6vh;
-  }
+.overlay .closebtn {
+  position: absolute;
+  top: 0vh;
+  right: 3vh;
+  font-size: 6vh;
+}
   
-  .overlay-content {
-    position: relative;
-  /*   top: 10%; */
-    width: 100%;
-    text-align: center;
-    margin-top: 6vh;
-    letter-spacing: 1px;
-  }
+.overlay-content {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  margin-top: 6vh;
+  letter-spacing: 1px;
+}
   
-  .overlay a {
-  /*   padding: 8px; */
-    text-decoration: none;
-  /*   font-size: 36px; */
-    color: #aaa;
-  /*   display: block; */
-    transition: 0.3s;
-    font-weight: 600;
-  }
+.overlay a {
+  text-decoration: none;
+  color: #aaa;
+  transition: 0.3s;
+  font-weight: 600;
+}
   
-  .overlay ol {
-  /*   margin: 0 auto; */
-  /*   margin-left: 25vw; */
-    text-align: left;
-  }
+.overlay ol {
+  text-align: left;
+}
   
-  .instructions {
-    text-align: center;
-    margin: 0 auto;
-    width: 60%;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 2vh;
-  }
+.overlay a:hover, .overlay a:focus {
+  color: #fff;
+}
+
+.instructions {
+  text-align: center;
+  margin: 0 auto;
+  width: 60%;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 2vh;
+}
  
-  .instructions h3 {
-   text-align: left;
-  }
+.instructions h3 {
+  text-align: left;
+}
 
-  .instructions p {
-    text-align: left;
-  }
-
-  .overlay a:hover, .overlay a:focus {
-    color: #fff;
-  }
+.instructions p {
+  text-align: left;
+}
