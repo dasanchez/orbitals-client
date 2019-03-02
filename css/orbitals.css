@@ -113,7 +113,7 @@ body {
 }
 
 #title-text {
-    width: 80%;
+    width: 100%;
     /* margin-left: -10%; */
     font-size: 6vh;
     letter-spacing: 3vh;
@@ -144,7 +144,6 @@ body {
         font-size: 4vh;
         letter-spacing: 2vh;
         /* padding-left: 1vh; */
-        font-weight: 600;
         animation-name: open-title;
     }
 

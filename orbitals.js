@@ -96,8 +96,7 @@
 }
 
 { // player variables
-    // var websocket = new WebSocket("ws://127.0.0.1:9001/");
-    var websocket = new WebSocket("ws://localhost:9001/");
+    var websocket = new WebSocket("ws://" + document.domain + ":9001/");
     var gameOn = false;
     var sector = '';
 }

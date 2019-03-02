@@ -1,32 +1,44 @@
 #menu-icon-container {
   box-sizing: border-box;
-  width: 10%;
+  width: 6vh;
   display: flex;
   align-items: center;
   /* box-sizing: border-box; */
-  padding-left: 1vh;
+  /* padding-left: 1vh; */
   /* margin-left: 1vh; */
-/*   flex-direction: column;   */
+  /*   flex-direction: column;   */
+  position: absolute;
+  top: 1.5vh;
+  right: 1vh;
 }
 
 #about-button {
-  background-color: #444;
-/*   background-color: inherit; */
+  /* background-color: #333; */
+  background-color: inherit;
   color: #ddd;
-  border-radius: 5px;
+  border-radius: 2.5vh;
   text-align: center;
   line-height: 3vh;
   margin: 0 auto;
   font-size: 2.4vh;
 /*   border: none; */
-  border: 1px solid #888; 
+  border: 2px solid #555; 
   width: 5vh;
   height: 5vh;
+  /* font-style: italic; */
+  /* font-weight: 800; */
+  box-shadow: inset 0 0 20px 3px #555,
+  inset 0 3px 5px 1px #ddd;
 }
 
-.title-spacer {
-  width: 10%;
+#about-button:hover {
+  background-color: #555;
 }
+
+h2 {
+  letter-spacing: 1vh;
+}
+
 
 .overlay {
     height: 100%;
@@ -54,15 +66,17 @@
     width: 100%;
     text-align: center;
     margin-top: 6vh;
+    letter-spacing: 1px;
   }
   
   .overlay a {
   /*   padding: 8px; */
     text-decoration: none;
   /*   font-size: 36px; */
-    color: #888;
+    color: #aaa;
   /*   display: block; */
     transition: 0.3s;
+    font-weight: 600;
   }
   
   .overlay ol {
@@ -77,17 +91,17 @@
     width: 60%;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
+    padding-bottom: 2vh;
   }
-  
-  /* .overlay a {
-    padding: 8px;
-    text-decoration: none;
-    font-size: 36px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-  } */
-  
+ 
+  .instructions h3 {
+   text-align: left;
+  }
+
+  .instructions p {
+    text-align: left;
+  }
+
   .overlay a:hover, .overlay a:focus {
     color: #fff;
   }
