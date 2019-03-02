@@ -1,3 +1,4 @@
+@import 'about.css';
 @import 'status-bar.css';
 @import 'cluster-info.css';
 @import 'word-board.css';
@@ -27,51 +28,6 @@ body {
     height: 8%;
     width: 100%;
     display: flex;
-}
-
-.player-indicator {
-    width: 15%;
-    display: flex;
-    align-items: center;
-}
-
-.hub-container {
-    width: 50%;
-    visibility: hidden;
-}
-
-.hub-indicator {
-    height: 4vw;
-    width: 4vw;
-    border-radius: 2vw;
-    margin: 0 auto;
-}
-
-#orange-hub-icon {
-    visibility: hidden;
-}
-
-#blue-hub-icon {
-    visibility: hidden;
-}
-
-.orbital-container {
-    width: 50%;
-}
-
-.orbital-indicator {
-    height: 2vw;
-    width: 2vw;
-    border-radius: 2vw;
-    margin: 0 auto;
-}
-
-#orange-orb-icon {
-    visibility: hidden;
-}
-
-#blue-orb-icon {
-    visibility: hidden;
 }
 
 .orange-border-off {
@@ -115,13 +71,37 @@ body {
     width: 100%;
     font-size: 6vh;
     letter-spacing: 3vh;
-    padding-left: 1.5vh;
     font-weight: 600;
     text-align: center;
     align-self: center;
     animation-duration: 2s;
     animation-name: open-title-long;
 }
+
+.cmd-button {
+    background-color: black;
+    color: #ddd;
+    border-radius: 1vh;
+    text-align: center;
+    font-weight: 400;
+    /* margin: 0 auto; */
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    border: 2px solid #555;
+    font-size: 2.4vh;
+    line-height: 5vh; 
+    letter-spacing: 1px;
+    /* width: 5vh; */
+    /* height: 5vh; */
+    box-shadow: inset 2px 2px 4px 1px #888;
+    /* inset 2px 2px 4px 1px #ddd; */
+    padding-right: 2vh;
+    padding-left: 2vh;
+}
+
+.cmd-button:hover {
+    background-color: #444;
+  }
 
 @keyframes open-title-long {
     from {
@@ -138,11 +118,8 @@ body {
 @media only screen and (max-width: 800px) {
 
     #title-text {
-        box-sizing: border-box;
         font-size: 4vh;
         letter-spacing: 2vh;
-        padding-left: 1vh;
-        font-weight: 600;
         animation-name: open-title;
     }
 

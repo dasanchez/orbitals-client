@@ -12,10 +12,41 @@
 
 <body>
 
+    <div id="about" class="overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="overlay-content">
+            <h2>ORBITALS</h2>
+            <p>A word association game by <a href="https://github.com/dasanchez/orbitals-client">@dasanchez</a></p>
+
+            <div class="instructions">
+                <h3>Instructions</h3>
+                <ol>
+                    <li>Enter your name</li>
+                    <li>Join a sector</li>
+                    <li>Choose a team</li>
+                    <li>Wait for game to start</li>
+                </ol>
+            
+                <p>To play as hub:</p>
+                <ol start="4">
+                    <li>Select the hub role</li>
+                    <li>Press Start when ready</li>
+                </ol>
+
+                <p><strong>Hubs</strong> submit hints.</p>
+                <p><strong>Orbitals</strong> guess words.</p>
+            </div>
+            <p><a href="https://urra.ca">Visit urra.ca</a></p>
+
+        </div>
+    </div>
+
     <div id="title-container">
 
+        <div id="menu-icon-container">
+            <button id="about-button" onclick="openNav()">?</button>
+        </div>
         <div id="title-text">ORBITALS</div>
-
     </div>
 
     <div id="status-bar">
@@ -39,13 +70,10 @@
     <div id='mainArea'>
 
         <div id="cluster-info">
-            <!-- <div id="sector-prompt">Choose a sector</div> -->
-            <div id="conn-container">
-                <span id="connection-status">NOT </span>
-            </div>
+                <div id="connection-status">NOT </div>
             <div id="name-entry">
                 <input id="name-input" class="neutral-border-off" placeholder="Enter a name">
-                <button id="name-send" class="send-button">Send</button>
+                <button id="name-send" class="cmd-button">Send</button>
                 <div id="name-response" class="bad-response"></div>
             </div>
             <div id="sector-selection"></div>
@@ -87,35 +115,36 @@
                     <div id="sector-name" class="sector-data"></div>
                     <label class="sector-info-label">Sector</label>
                 </div>
-                <button id="leave-button" class="send-button">Leave</button>
-            </div>
-
-            <div id="player-data-entry">
-                <div id="team-selection">
-                    <div id="team-prompt" class="entry-prompt">Choose a team</div>
-                    <div id="team-options">
-                        <button id="orange-team-button" class="team-button orange-border-off">
-                        </button>
-                        <button id="blue-team-button" class="team-button blue-border-off">
-                        </button>
-                    </div>
-                    <div id="team-response" class="bad-response"></div>
-                </div>
-                <div id="role-selection">
-                    <div id="role-prompt" class="entry-prompt">Play as hub?</div>
-                    <button id="hub-button" class="team-button">
-                    </button>
-                    <div id="role-response" class="bad-response"></div>
-                </div>
-                <div id="ready-area">
-                    <!-- <div>Ready?</div> -->
-                    <button id="start-button" class="team-button">Start
-                    </button>
-                </div>
+                <button id="leave-button" class="cmd-button">Leave</button>
             </div>
 
             <div id='player-list'>
+
                 <div id='orange-team' class='team-list'></div>
+
+                <div id="player-data-entry">
+                    <div id="team-selection">
+                        <div id="team-prompt" class="entry-prompt">Choose a team</div>
+                        <div id="team-options">
+                            <button id="orange-team-button" class="team-button orange-border-off">
+                            </button>
+                            <button id="blue-team-button" class="team-button blue-border-off">
+                            </button>
+                        </div>
+                        <div id="team-response" class="bad-response"></div>
+                    </div>
+                    <div id="role-selection">
+                        <div id="role-prompt" class="entry-prompt">Play as hub?</div>
+                        <button id="hub-button" class="team-button">
+                        </button>
+                        <div id="role-response" class="bad-response"></div>
+                    </div>
+                    <div id="ready-area">
+                        <button id="start-button" class="send-button neutral-border-on">Start
+                        </button>
+                    </div>
+                </div>
+
                 <div id='blue-team' class='team-list'></div>
             </div>
         </div>
@@ -129,9 +158,9 @@
     <div id="comms-area">
 
         <div id="message-area">
-            <button id="replay-button" class="send-button">Replay</button>
+            <button id="replay-button" class="cmd-button">Replay</button>
             <input id="message-input" placeholder="Enter message">
-            <button id="send-message-button" class="send-button">Send</button>
+            <button id="send-message-button" class="cmd-button">Send</button>
         </div>
 
         <div id="hint-submission-comms">
@@ -140,12 +169,12 @@
                 <input type="range" id="guess-range" min="1" max="4" value="2">
                 <div id="guess-count-label">2</div>
             </div>
-            <button id="hub-submit-button" class="send-button">Submit</button>
+            <button id="hub-submit-button" class="cmd-button">Submit</button>
         </div>
 
         <div id="hint-response-comms">
-            <button id="approve-button" class="send-button">Approve</button>
-            <button id="reject-button" class="send-button">Reject</button>
+            <button id="approve-button" class="cmd-button">Approve</button>
+            <button id="reject-button" class="cmd-button">Reject</button>
         </div>
 
     </div>

@@ -1,8 +1,4 @@
 { // UI variables
-    // var orangeHubIcon = document.getElementById('orange-hub-icon'),
-    //     orangeOrbIcon = document.getElementById('orange-orb-icon'),
-    //     blueHubIcon = document.getElementById('blue-hub-icon'),
-    //     blueOrbIcon = document.getElementById('blue-orb-icon');
 
     // status bar
     var statusBar = document.getElementById('status-bar'),
@@ -96,8 +92,7 @@
 }
 
 { // player variables
-    // var websocket = new WebSocket("ws://127.0.0.1:9001/");
-    var websocket = new WebSocket("ws://localhost:9001/");
+    var websocket = new WebSocket("ws://" + document.domain + ":9001/");
     var gameOn = false;
     var sector = '';
 }
@@ -116,13 +111,6 @@ function sleep(ms) {
             sectorButton.style.backgroundColor = '#111';
             gameButton.blur();
         }
-        // else {
-        // updateMainArea('data-entry');
-        // }
-        // gameButton.style.backgroundColor = '#333';
-        // commsButton.style.backgroundColor = '#111';
-        // sectorButton.style.backgroundColor = '#111';
-        // gameButton.blur();
     }
 
     commsButton.onclick = function () {
@@ -152,12 +140,6 @@ function sleep(ms) {
         if (event.keyCode === 13) {
             nameInput.blur();
             sendNameButton.click();
-            // var nameRequest = JSON.stringify({
-            //     'type': 'name-request',
-            //     'name': nameInput.value
-            // });
-            // nameInput.blur();
-            // await websocket.send(nameRequest);
         } else {
             if (nameResponse.parentNode === nameEntry) {
                 nameEntry.removeChild(nameResponse);
@@ -193,7 +175,7 @@ function sleep(ms) {
     hubButton.onclick = async function (event) {
         hubButton.blur();
         await websocket.send(JSON.stringify({
-            'type': 'source-request'
+            'type': 'hub-request'
         }));
     };
 
@@ -269,6 +251,14 @@ function sleep(ms) {
 }
 
 { // layout content management
+    function openNav() {
+        document.getElementById("about").style.width = "100%";
+    }
+      
+      function closeNav() {
+        document.getElementById("about").style.width = "0%";
+    }
+
     function clearStatusBar() {
         gamePrompt.textContent = '';
         guessInfoArea.style.visibility = 'hidden';
@@ -414,7 +404,7 @@ function sleep(ms) {
             sectorDetails.appendChild(sectorOrange);
             
             joinButton.textContent = 'Join';
-            joinButton.className = 'join-button';
+            joinButton.className = 'cmd-button';
             
             joinButton.onclick = async function() {
                 // send request to join sector
@@ -453,11 +443,7 @@ function sleep(ms) {
 
     }
 
-    function clearDataEntry() {        
-        // name input
-        // nameInput.disabled = false;
-        // nameInput.className = "neutral-border-off";
-        // sendNameButton.style.display = 'inline';
+    function clearDataEntry() {
 
         // team input
         teamSelection.style.display = 'block';
@@ -472,27 +458,26 @@ function sleep(ms) {
         hubButton.disabled = false;
     }
 
-    function updateDataEntry(playerStatus, ready = false) {
+    function updateDataEntry(playerStatus, hub = false, ready = false) {
         // nameEntry.style.visibility = 'hidden';
         teamSelection.style.visibility = 'hidden';
         roleSelection.style.visibility = 'hidden';
         readyArea.style.visibility = 'hidden';
         switch (playerStatus) {
-            // case 'name-entry':
-                // nameEntry.style.visibility = 'visible';
-                // nameInput.focus();
-                // break;
             case 'team-selection':
-                nameEntry.style.visibility = 'visible';
                 teamSelection.style.visibility = 'visible';
                 break;
             case 'role-selection':
-                nameEntry.style.visibility = 'visible';
                 teamSelection.style.visibility = 'visible';
                 roleSelection.style.visibility = 'visible';
+                if (hub) {
+                    rolePrompt.textContent = 'Playing as hub';
+                }
+                else {
+                    rolePrompt.textContent = 'Play as hub?';
+                }
                 break;
             case 'ready-area':
-                nameEntry.style.visibility = 'visible';
                 teamSelection.style.visibility = 'visible';
                 roleSelection.style.visibility = 'visible';
                 readyArea.style.visibility = 'visible';
@@ -559,7 +544,7 @@ function sleep(ms) {
                 if (replayButton.parentNode === messageArea) {
                     messageArea.removeChild(replayButton)
                 }
-                messageInput.style.width = '80%';
+                messageInput.style.width = '75%';
                 comms.appendChild(messageArea);
                 break;
             case 'hint-submission':
@@ -572,7 +557,7 @@ function sleep(ms) {
                 if (replayButton.parentNode != messageArea) {
                     messageArea.insertBefore(replayButton, messageInput);
                 }
-                messageInput.style.width = '55%';
+                messageInput.style.width = '50%';
                 comms.appendChild(messageArea);
                 break;
             default:
@@ -582,8 +567,6 @@ function sleep(ms) {
 
     function setupUI() {
         startStatus = {};
-        // startStatus['state'] = 'waiting-players';
-        // startStatus['prompt'] = 'Choose a sector';
         startStatus['show-hint'] = false;
         startStatus['turn'] = 'N';
         startStatus['show-turn'] = false;
@@ -649,13 +632,14 @@ function sleep(ms) {
 // websocket functions
 {
     websocket.onopen = function (evt) {
-        // connectionStatus.textContent = "";
-        // updateMainArea('data-entry');
         connectionStatus.style.display = 'none';
     };
 
     websocket.onclose = function (event) {
-        connectionStatus.textContent = "NOT ";
+        connectionStatus.style.display = 'block';
+        // go back to cluster info screen
+        updateMainArea('cluster-info');
+        
     };
 
     websocket.onmessage = async function (event) {
@@ -675,7 +659,6 @@ function sleep(ms) {
                 {
                     if (data.msg == 'joined-sector') {
                         sector = data.sector;
-                        // updateMainArea('sector-info');
                         sectorButton.click();
                     } else if (data.msg == 'left-sector') {
                         sector = '';
@@ -690,10 +673,8 @@ function sleep(ms) {
                         nameInput.disabled = true;
                         sendNameButton.style.display = 'none';
                         userName.textContent = data.name;
-                        // updateDataEntry('team-selection');
                         gamePrompt.textContent = data.prompt;
                         updateSectorSelection(data.sectors);
-                        // commsButton.style.visibility = 'visible';
                     } else if (data.msg === 'name-not-accepted') {
                         nameResponse.textContent = data.reason;
                         if (nameResponse.parentNode === nameEntry) {
@@ -702,32 +683,23 @@ function sleep(ms) {
                         nameEntry.appendChild(nameResponse);
                         nameInput.focus();
                     } else if (data.msg === 'team-accepted') {
-                        teamSelection.style.display = 'none';
                         team = data.team;
                         if (team === 'O') {
-                            // nameInput.className = "orange-border-off";
-                            hubButton.className += " orange-border-on";
+                            hubButton.className = "team-button orange-border-on";
                         } else if (team === 'B') {
-                            // nameInput.className = "blue-border-off";
-                            hubButton.className += " blue-border-on";
+                            hubButton.className = "team-button blue-border-on";
                         }
-                        orangeTeamButton.disabled = true;
-                        blueTeamButton.disabled = true;
                     } else if (data.msg === 'team-rejected') {
                         teamResponse.textContent = data.reason;
                         if (teamResponse.parentNode === teamSelection) {
                             teamSelection.removeChild(teamResponse);
                         }
                         teamSelection.appendChild(teamResponse);
-                    } else if (data.msg === 'source-accepted') {
-                        roleSelection.style.display = 'none';
-                        hubButton.disabled = true;
-                        // if (team === 'O') {
-                        //     nameInput.className += " orange-border-on";
-                        // } else if (team === 'B') {
-                        //     nameInput.className += " blue-border-on";
-                        // }
-                    } else if (data.msg === 'source-rejected') {
+                    } else if (data.msg === 'hub-on') {
+                        rolePrompt.textContent = "Playing as hub"
+                    } else if (data.msg === 'hub-off') {
+                        rolePrompt.textContent = "Play as  hub?"
+                    } else if (data.msg === 'hub-rejected') {
                         roleResponse.textContent = data.reason;
                         if (roleResponse.parentNode === roleSelection) {
                             roleSelection.removeChild(roleResponse);
@@ -756,14 +728,14 @@ function sleep(ms) {
                         playerEntry.appendChild(playerName);
 
                         if (team === 'O') {
-                            if (element.src) {
+                            if (element.hub) {
                                 containerClass = containerClass + " orange-border-on";
                             }
                             else {
                                 containerClass = containerClass + " orange-border-off";
                             }
                         } else if (team === 'B') {
-                            if (element.src) {
+                            if (element.hub) {
                                 containerClass = containerClass + " blue-border-on";
                             }
                             else {
@@ -786,31 +758,40 @@ function sleep(ms) {
                 {
                     state = data.state;
                     if (state === 'waiting-players') {
-                        // if (gameOn) {
-                        // gameOn = false;
-                        // updateStatusBar(data);
-                        // updateMainArea('data-entry');
-                        // }
+                        orangeTeamButton.disabled = false;
+                        blueTeamButton.disabled = false;
+                        hubButton.disabled = false;
                         updateStatusBar(data);
                         sectorButton.click();
-                        // updateMainArea('sector-info');
+                        orangeTeam.style.width = '32%';
+                        blueTeam.style.width = '32%';
+                        dataEntryArea.style.display = 'block';
                         var dataEntry = data.entry;
-                        updateDataEntry(dataEntry);
+                        updateDataEntry(dataEntry, data.hub, data.ready);
                         updateCommsArea('message');
                     } else if (state === 'waiting-start') {
-                        // if (gameOn) {
-                        // gameOn = false;
-                        // updateStatusBar(data);
-                        // updateMainArea('sector-info');
-                        // }
                         updateStatusBar(data);
-                        updateMainArea('sector-info');
+                        sectorButton.click();
+                        orangeTeamButton.disabled = false;
+                        blueTeamButton.disabled = false;
+                        hubButton.disabled = false;
+                        orangeTeam.style.width = '32%';
+                        blueTeam.style.width = '32%';
+                        dataEntryArea.style.display = 'block';
                         var dataEntry = data.entry;
-                        updateStatusBar(data);
-                        updateDataEntry(dataEntry, data.ready);
+                        updateDataEntry(dataEntry, data.hub, data.ready);
                     } else if (state === 'game-start') {
                         gameOn = true;
                         updateStatusBar(data);
+                        // deactivate team, role, and start buttons
+                        orangeTeamButton.disabled = true;
+                        blueTeamButton.disabled = true;
+                        hubButton.disabled = true;
+                        startButton.disabled = true;
+                        dataEntryArea.style.display = 'none';
+                        orangeTeam.style.width = '50%';
+                        blueTeam.style.width = '50%';
+
                         updateMainArea('word-board');
                         if (data.updateComms == true)
                             updateCommsArea(data.comms)
@@ -828,15 +809,13 @@ function sleep(ms) {
                             updateCommsArea(data.comms);
                         }
                     } else if (data.state === 'game-over') {
-                        // orangeHubIcon.style.visibility = 'hidden';
-                        // blueHubIcon.style.visibility = 'hidden';
                         updateStatusBar(data);
                         if (data.updateComms) {
                             updateCommsArea(data.comms);
                         }
-                        startButton.style.backgroundColor = 'inherit';
-                        startButton.style.color = '#ddd';
-                        startButton.disabled = false;
+                        orangeTeamButton.disabled = false;
+                        blueTeamButton.disabled = false;
+                        hubButton.disabled = false;
                     }
                 }
                 break;

@@ -5,143 +5,12 @@
   width: 100%;
 }
 
-#player-data-entry {
-  height: 40%;
-  width: 100%;
-  text-align: center;
-  z-index: 1;
-  font-size: 2vh;
-}
-
-#sector-area {
-    display: flex;  
-    align-items: center;
-    margin-bottom: 1vh;
-    background-color: #222;
-    padding: 1vh 1vh 1vh 1vh;
-  }
-  
-.sector-label {
-  width: 40%;
-  position: relative;
-  background-color: black;
-  margin-right: 1vh;
-  border: 1px solid #333;
-}
-
-.sector-info-label {
-  position: absolute;
-  top: 0.2vh;
-  left: 0.5vh;
-  font-size: 1.6vh;
-}
-
-.sector-data {
-  position: relative;
-  top: 1vh;
-  line-height: 6vh;
-  font-size: 2.4vh;
-}
-
-#leave-button {
-  width: 20%;
-}
-
-/* .sector-info-label {
-  width: 6%;
-    text-align: center;
-    font-size: 1.8vh;
-  } */
-
-/* .sector-data {
-  background-color: #111;
-  margin: 0px 2vw 0px 2vw;
-  letter-spacing: 1px;
-  line-height: 5vh;
-  font-size: 2.2vh; 
-} */
-
-/* #player-name {
-  width: 40%;
-} */
-  
-/* #sector-name {
-  width: 40%;
-} */
-
-.bad-response {
-  margin-top: 1vh;
-  border-top: 1px solid rgb(140, 50, 50);
-  border-bottom: 1px solid rgb(140, 50, 50);
-  animation: fadeinout 2s linear forwards;
-  opacity: 0;
-  background-color: rgb(255, 95, 95);
-  color: white;
-  font-size: 2.4vh;
-}
-
-@keyframes fadeinout {
-  10% { opacity: 0.8; }
-  80% { opacity: 0.8; }
-}
-
-#team-selection {
-  margin-bottom: 2vh;
-}
-
-.entry-prompt {
-  font-size: 2.4vh;
-}
-
-.team-button {
-  height: 8vh;
-  width: 8vh;
-  margin: 1vh;
-  margin-bottom: 1vh;
-  background-color: inherit;
-  border: 1px solid #888;
-  border-radius: 4vh;
-  font-size: 2.4vh;
-}
-
-#role-selection {
-  margin-bottom: 4vh;
-}
-
-#root-button {
-  border-radius: 4vh;
-  border-width: 2px;
-}
-
-#start-button {
-  color: #ddd;
-  width: 12vh;
-  border-radius: 5px;
-}
-
-
-#user-list {
-  width: 30%;
-  border-left: 5px solid gray;
-  height: 100vh;
-  padding-top: 20px;
-  text-align: center;
-}
-
-#connection-status::after {
-  content: "CONNECTED";
-}
-
 #player-list {
-  height: 60%;
   display: flex;
-  /* flex-direction: column; */
-  align-items: center;
-  /* margin: 10px; */
 }
 
 .team-list {
-  width: 50%;
+  width: 32%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -156,6 +25,7 @@
   align-items: center;
   margin: 5px;
   width: 100%;
+  overflow-x: auto;
 }
 
 .player-name {
@@ -196,6 +66,120 @@
   border: 2px solid #40acff;
 }
 
-@media only screen and (max-width: 800px) {
+#player-data-entry {
+  width: 36%;
+  text-align: center;
+  z-index: 1;
+  font-size: 2vh;
+}
 
+#sector-area {
+    display: flex;  
+    align-items: center;
+    margin-bottom: 1vh;
+    background-color: #222;
+    padding: 1vh 1vh 1vh 1vh;
+  }
+  
+.sector-label {
+  width: 40%;
+  position: relative;
+  background-color: black;
+  margin-right: 1vh;
+  border: 1px solid #333;
+}
+
+.sector-info-label {
+  position: absolute;
+  top: 0.2vh;
+  left: 0.5vh;
+  font-size: 1.6vh;
+}
+
+.sector-data {
+  position: relative;
+  top: 1vh;
+  line-height: 6vh;
+  font-size: 2.4vh;
+}
+
+#leave-button {
+  width: 20%;
+}
+
+.bad-response {
+  margin-top: 1vh;
+  border-top: 1px solid rgb(140, 50, 50);
+  border-bottom: 1px solid rgb(140, 50, 50);
+  animation: fadeinout 2s linear forwards;
+  opacity: 0;
+  background-color: rgb(255, 95, 95);
+  color: white;
+  font-size: 2.4vh;
+}
+
+@keyframes fadeinout {
+  10% { opacity: 0.8; }
+  80% { opacity: 0.8; }
+}
+
+#team-selection {
+  margin-bottom: 1vh;
+}
+
+.entry-prompt {
+  font-size: 2vh;
+  margin-bottom: 1vh;
+}
+
+.team-button {
+  height: 8vh;
+  width: 8vh;
+  margin: 1vw;
+  background-color: inherit;
+  border: 1px solid #888;
+  border-radius: 4vh;
+  font-size: 4vh;
+}
+
+#role-selection {
+  margin-bottom: 2vh;
+}
+
+#hub-button {
+  border-radius: 4vh;
+  border-width: 2px;
+}
+
+#start-button {
+  color: #ddd;
+  width: 80%;
+  border-radius: 5px;
+
+}
+
+#user-list {
+  width: 30%;
+  border-left: 5px solid gray;
+  height: 100vh;
+  padding-top: 20px;
+  text-align: center;
+}
+
+#connection-status::after {
+  content: "CONNECTED";
+}
+
+
+@media only screen and (max-width: 800px) {
+  .team-button {
+    height: 10vw;
+    width: 10vw;
+    margin: 1vw;
+    background-color: inherit;
+    border: 1px solid #888;
+    border-radius: 5vw;
+    font-size: 5vw;
+  }
+  
 }
