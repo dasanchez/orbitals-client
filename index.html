@@ -24,6 +24,7 @@
                     <li>Enter your name</li>
                     <li>Join a sector</li>
                     <li>Choose a team</li>
+                    <li>Wait for game to start</li>
                 </ol>
             
                 <p>To play as hub:</p>
@@ -69,10 +70,9 @@
     <div id='mainArea'>
 
         <div id="cluster-info">
-            <!-- <div id="sector-prompt">Choose a sector</div> -->
-            <div id="conn-container">
-                <span id="connection-status">NOT </span>
-            </div>
+            <!-- <div id="conn-container"> -->
+                <div id="connection-status">NOT </div>
+            <!-- </div> -->
             <div id="name-entry">
                 <input id="name-input" class="neutral-border-off" placeholder="Enter a name">
                 <button id="name-send" class="send-button">Send</button>
@@ -142,7 +142,6 @@
                         <div id="role-response" class="bad-response"></div>
                     </div>
                     <div id="ready-area">
-                        <!-- <div>Ready?</div> -->
                         <button id="start-button" class="send-button neutral-border-on">Start
                         </button>
                     </div>

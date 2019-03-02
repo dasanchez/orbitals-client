@@ -1,8 +1,4 @@
 { // UI variables
-    // var orangeHubIcon = document.getElementById('orange-hub-icon'),
-    //     orangeOrbIcon = document.getElementById('orange-orb-icon'),
-    //     blueHubIcon = document.getElementById('blue-hub-icon'),
-    //     blueOrbIcon = document.getElementById('blue-orb-icon');
 
     // status bar
     var statusBar = document.getElementById('status-bar'),
@@ -115,13 +111,6 @@ function sleep(ms) {
             sectorButton.style.backgroundColor = '#111';
             gameButton.blur();
         }
-        // else {
-        // updateMainArea('data-entry');
-        // }
-        // gameButton.style.backgroundColor = '#333';
-        // commsButton.style.backgroundColor = '#111';
-        // sectorButton.style.backgroundColor = '#111';
-        // gameButton.blur();
     }
 
     commsButton.onclick = function () {
@@ -151,12 +140,6 @@ function sleep(ms) {
         if (event.keyCode === 13) {
             nameInput.blur();
             sendNameButton.click();
-            // var nameRequest = JSON.stringify({
-            //     'type': 'name-request',
-            //     'name': nameInput.value
-            // });
-            // nameInput.blur();
-            // await websocket.send(nameRequest);
         } else {
             if (nameResponse.parentNode === nameEntry) {
                 nameEntry.removeChild(nameResponse);
@@ -460,11 +443,7 @@ function sleep(ms) {
 
     }
 
-    function clearDataEntry() {        
-        // name input
-        // nameInput.disabled = false;
-        // nameInput.className = "neutral-border-off";
-        // sendNameButton.style.display = 'inline';
+    function clearDataEntry() {
 
         // team input
         teamSelection.style.display = 'block';
@@ -485,16 +464,10 @@ function sleep(ms) {
         roleSelection.style.visibility = 'hidden';
         readyArea.style.visibility = 'hidden';
         switch (playerStatus) {
-            // case 'name-entry':
-                // nameEntry.style.visibility = 'visible';
-                // nameInput.focus();
-                // break;
             case 'team-selection':
-                // nameEntry.style.visibility = 'visible';
                 teamSelection.style.visibility = 'visible';
                 break;
             case 'role-selection':
-                // nameEntry.style.visibility = 'visible';
                 teamSelection.style.visibility = 'visible';
                 roleSelection.style.visibility = 'visible';
                 if (hub) {
@@ -505,7 +478,6 @@ function sleep(ms) {
                 }
                 break;
             case 'ready-area':
-                // nameEntry.style.visibility = 'visible';
                 teamSelection.style.visibility = 'visible';
                 roleSelection.style.visibility = 'visible';
                 readyArea.style.visibility = 'visible';
@@ -595,8 +567,6 @@ function sleep(ms) {
 
     function setupUI() {
         startStatus = {};
-        // startStatus['state'] = 'waiting-players';
-        // startStatus['prompt'] = 'Choose a sector';
         startStatus['show-hint'] = false;
         startStatus['turn'] = 'N';
         startStatus['show-turn'] = false;
@@ -662,13 +632,15 @@ function sleep(ms) {
 // websocket functions
 {
     websocket.onopen = function (evt) {
-        // connectionStatus.textContent = "";
-        // updateMainArea('data-entry');
         connectionStatus.style.display = 'none';
     };
 
     websocket.onclose = function (event) {
-        connectionStatus.textContent = "NOT ";
+        // connectionStatus.textContent = "NOT ";
+        connectionStatus.style.display = 'block';
+        // go back to cluster info screen
+        updateMainArea('cluster-info');
+        
     };
 
     websocket.onmessage = async function (event) {
