@@ -15,7 +15,7 @@
 
 #name-entry {
   text-align: center;
-  margin-top: 1vh;
+  /* margin-top: 1vh; */
 }
 
 #name-input {
@@ -25,6 +25,7 @@
   color: #fff;
   background-color: inherit;
   border-radius: 5px;
+  margin-top: 1vh;
 }
 
 #sector-prompt {
@@ -38,6 +39,7 @@
     column-gap: 2vw;
     row-gap: 2vh;
     margin: 2vh;
+    margin-top: 1vh;
 }
   
 .sector-details {

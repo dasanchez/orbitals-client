@@ -32,19 +32,19 @@ body {
 
 .orange-border-off {
     box-sizing: border-box;
-    border: 2px solid orange;
+    border: 1px solid orange;
     box-shadow: inset 0px 0px 5px 3px orange;
 }
 
 .blue-border-off {
     box-sizing: border-box;
-    border: 2px solid #40acff;
+    border: 1px solid #40acff;
     box-shadow: inset 0px 0px 5px 3px #40acff;
 }
 
 .neutral-border-off {
     box-sizing: border-box;
-    border: 2px solid #ddd;
+    border: 1px solid #ddd;
 }
 
 .orange-border-on {
@@ -74,7 +74,7 @@ body {
     font-weight: 600;
     text-align: center;
     align-self: center;
-    animation-duration: 2s;
+    animation-duration: 1.2s;
     animation-name: open-title-long;
 }
 
@@ -84,17 +84,13 @@ body {
     border-radius: 1vh;
     text-align: center;
     font-weight: 400;
-    /* margin: 0 auto; */
     margin-top: 1vh;
     margin-bottom: 1vh;
     border: 2px solid #555;
     font-size: 2.4vh;
     line-height: 5vh; 
     letter-spacing: 1px;
-    /* width: 5vh; */
-    /* height: 5vh; */
     box-shadow: inset 2px 2px 4px 1px #888;
-    /* inset 2px 2px 4px 1px #ddd; */
     padding-right: 2vh;
     padding-left: 2vh;
 }
@@ -105,7 +101,7 @@ body {
 
 @keyframes open-title-long {
     from {
-        letter-spacing: 1vh;
+        letter-spacing: 0.25vh;
         text-shadow: 0px -6px 5px #ddd;
     }
 
@@ -125,11 +121,13 @@ body {
 
     @keyframes open-title {
         from {
-            letter-spacing: 1vh;
+            letter-spacing: 0.25vh;
+            text-shadow: 0px -6px 5px #ddd;
         }
 
         to {
             letter-spacing: 2vh;
+            text-shadow: 0px 0px 0px #ddd;
         }
     }
 }
