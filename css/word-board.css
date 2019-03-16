@@ -19,7 +19,7 @@
 
 .word-box {
     box-sizing: border-box;
-    border: 2px solid gray;
+    border: 1px solid gray;
     background-color: #000;
     color: #ddd;
     border-radius: 5px;
@@ -29,7 +29,7 @@
 }
 
 .word-box-orange {
-    border: 2px solid orange;
+    border: 1px solid orange;
     background-color: orange;
     color: black;
     border-radius: 5px;
@@ -39,7 +39,7 @@
 }
 
 .word-box-blue {
-    border: 2px solid #40acff;
+    border: 1px solid #40acff;
     background-color: #40acff;
     color: black;
     border-radius: 5px;
@@ -49,7 +49,7 @@
 }
 
 .word-box-neutral {
-    border: 2px solid #ddd;
+    border: 1px solid #ddd;
     background-color: #ddd;
     color: black;
     border-radius: 5px;
