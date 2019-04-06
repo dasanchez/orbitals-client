@@ -95,6 +95,7 @@
     var websocket = new WebSocket("ws://" + document.domain + ":9001/");
     var gameOn = false;
     var sector = '';
+    var team = '';
 }
 
 // utility functions
@@ -104,13 +105,13 @@ function sleep(ms) {
 
 { // UI events 
     gameButton.onclick = function () {
-        if (gameOn) {
+        // if (gameOn) {
             updateMainArea('word-board');
             gameButton.style.backgroundColor = '#333';
             commsButton.style.backgroundColor = '#111';
             sectorButton.style.backgroundColor = '#111';
             gameButton.blur();
-        }
+        // }
     }
 
     commsButton.onclick = function () {
@@ -463,11 +464,25 @@ function sleep(ms) {
         teamSelection.style.visibility = 'hidden';
         roleSelection.style.visibility = 'hidden';
         readyArea.style.visibility = 'hidden';
+        // if (team == '') {
+            // playerStatus = 'team-selection';
+        // }
         switch (playerStatus) {
+            case 'view-only':
+                dataEntryArea.style.display = 'none';
+                orangeTeam.style.width = '50%';
+                blueTeam.style.width = '50%';
+                break;
             case 'team-selection':
+                orangeTeam.style.width = '32%';
+                blueTeam.style.width = '32%';
+                dataEntryArea.style.display = 'block';
                 teamSelection.style.visibility = 'visible';
                 break;
             case 'role-selection':
+                orangeTeam.style.width = '32%';
+                blueTeam.style.width = '32%';
+                dataEntryArea.style.display = 'block';
                 teamSelection.style.visibility = 'visible';
                 roleSelection.style.visibility = 'visible';
                 if (hub) {
@@ -478,6 +493,9 @@ function sleep(ms) {
                 }
                 break;
             case 'ready-area':
+                orangeTeam.style.width = '32%';
+                blueTeam.style.width = '32%';
+                dataEntryArea.style.display = 'block';
                 teamSelection.style.visibility = 'visible';
                 roleSelection.style.visibility = 'visible';
                 readyArea.style.visibility = 'visible';
@@ -667,6 +685,7 @@ function sleep(ms) {
                         clearDataEntry();
                         updateSectorSelection(data.sectors);
                         updateMainArea('cluster-info');
+                        team = '';
                         gamePrompt.textContent = data.prompt;
                     } else if (data.msg === 'name-accepted') {
                         nameInput.className = "neutral-border-off";
@@ -689,6 +708,7 @@ function sleep(ms) {
                         } else if (team === 'B') {
                             hubButton.className = "team-button blue-border-on";
                         }
+                        updateDataEntry('', false, false);
                     } else if (data.msg === 'team-rejected') {
                         teamResponse.textContent = data.reason;
                         if (teamResponse.parentNode === teamSelection) {
@@ -758,29 +778,30 @@ function sleep(ms) {
                 {
                     state = data.state;
                     if (state === 'waiting-players') {
+                        var dataEntry = data.entry;
                         orangeTeamButton.disabled = false;
                         blueTeamButton.disabled = false;
                         hubButton.disabled = false;
                         updateStatusBar(data);
                         sectorButton.click();
-                        orangeTeam.style.width = '32%';
-                        blueTeam.style.width = '32%';
-                        dataEntryArea.style.display = 'block';
-                        var dataEntry = data.entry;
+                        // orangeTeam.style.width = '32%';
+                        // blueTeam.style.width = '32%';
+                        // dataEntryArea.style.display = 'block';
                         updateDataEntry(dataEntry, data.hub, data.ready);
                         updateCommsArea('message');
                     } else if (state === 'waiting-start') {
+                        var dataEntry = data.entry;
                         updateStatusBar(data);
                         sectorButton.click();
                         orangeTeamButton.disabled = false;
                         blueTeamButton.disabled = false;
                         hubButton.disabled = false;
-                        orangeTeam.style.width = '32%';
-                        blueTeam.style.width = '32%';
-                        dataEntryArea.style.display = 'block';
-                        var dataEntry = data.entry;
+                        // orangeTeam.style.width = '32%';
+                        // blueTeam.style.width = '32%';
+                        // dataEntryArea.style.display = 'block';
                         updateDataEntry(dataEntry, data.hub, data.ready);
                     } else if (state === 'game-start') {
+                        var dataEntry = data.entry;
                         gameOn = true;
                         updateStatusBar(data);
                         // deactivate team, role, and start buttons
@@ -788,28 +809,37 @@ function sleep(ms) {
                         blueTeamButton.disabled = true;
                         hubButton.disabled = true;
                         startButton.disabled = true;
-                        dataEntryArea.style.display = 'none';
-                        orangeTeam.style.width = '50%';
-                        blueTeam.style.width = '50%';
-
+                        // dataEntryArea.style.display = 'none';
+                        // orangeTeam.style.width = '50%';
+                        // blueTeam.style.width = '50%';
+                        updateDataEntry(dataEntry);
                         updateMainArea('word-board');
                         if (data.updateComms == true)
                             updateCommsArea(data.comms)
                         gameButton.click();
                     } else if (state === 'hint-submission' || state === 'hint-response') {
+                        var dataEntry = data.entry;
                         updateStatusBar(data);
+                        updateDataEntry(dataEntry);
+                        // updateMainArea('word-board');
                         if (data.updateComms) {
                             updateCommsArea(data.comms);
                         }
                     } else if (data.state === 'guess-submission') {
+                        var dataEntry = data.entry;
                         updateStatusBar(data);
                         // enable guesses
+                        updateDataEntry(dataEntry);
+                        // updateMainArea('word-board');
                         updateWordBoard(data.enableGuesses);
                         if (data.updateComms) {
                             updateCommsArea(data.comms);
                         }
                     } else if (data.state === 'game-over') {
+                        var dataEntry = data.entry;
                         updateStatusBar(data);
+                        updateDataEntry(dataEntry);
+                        // updateMainArea('word-board');
                         if (data.updateComms) {
                             updateCommsArea(data.comms);
                         }
