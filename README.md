@@ -1,6 +1,6 @@
 # orbitals-client
 
-### Web client for the Orbitals game
+This is a web client for the Orbitals game.
 
 Try a live demo at [urra.ca](https://urra.ca/orbitals/)!
 
@@ -8,7 +8,7 @@ Try a live demo at [urra.ca](https://urra.ca/orbitals/)!
 
 This website is built with vanilla Javascript.
 
-Run an instance of [orbitals-server](https://github.com/dasanchez/orbitals-server) and connect to it through this client using the appropriate websocket port (the default one is 9001).
+Run an instance of [orbitals-server](https://github.com/dasanchez/orbitals-server) and connect to it through this client using the appropriate websocket port; the default one is 9001.
 
 
 ## Screenshots
