@@ -93,6 +93,8 @@
 
 { // player variables
     var websocket = new WebSocket("ws://" + document.domain + ":9001/");
+    // use the following line instead to use secure websockets
+    //var websocket = new WebSocket("wss://" + document.domain + ":9001/");
     var gameOn = false;
     var sector = '';
     var team = '';
