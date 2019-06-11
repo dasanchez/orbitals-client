@@ -105,13 +105,11 @@ function sleep(ms) {
 
 { // UI events 
     gameButton.onclick = function () {
-        // if (gameOn) {
-            updateMainArea('word-board');
-            gameButton.style.backgroundColor = '#333';
-            commsButton.style.backgroundColor = '#111';
-            sectorButton.style.backgroundColor = '#111';
-            gameButton.blur();
-        // }
+        updateMainArea('word-board');
+        gameButton.style.backgroundColor = '#333';
+        commsButton.style.backgroundColor = '#111';
+        sectorButton.style.backgroundColor = '#111';
+        gameButton.blur();
     }
 
     commsButton.onclick = function () {
@@ -124,14 +122,13 @@ function sleep(ms) {
 
     sectorButton.onclick = function () {
         updateMainArea('sector-info');
-        
         gameButton.style.backgroundColor = '#111';
         commsButton.style.backgroundColor = '#111';
         sectorButton.style.backgroundColor = '#333';
         sectorButton.blur();
     }
 
-    leaveButton.onclick = async function() {
+    leaveButton.onclick = async function () {
         await websocket.send(JSON.stringify({
             'type': 'leave-sector'
         }));
@@ -255,15 +252,15 @@ function sleep(ms) {
     function openNav() {
         document.getElementById("about").style.width = "100%";
     }
-      
-      function closeNav() {
+
+    function closeNav() {
         document.getElementById("about").style.width = "0%";
     }
 
     function clearStatusBar() {
         gamePrompt.textContent = '';
         guessInfoArea.style.visibility = 'hidden';
-        
+
         if (turnContainer.parentNode === statusBar) {
             statusBar.removeChild(turnContainer);
             stateContainer.style.width = '100%';
@@ -343,8 +340,8 @@ function sleep(ms) {
                 break;
             case 'sector-info':
                 if (sector) {
-                currentSector.textContent = sector;
-                mainArea.appendChild(sectorInfo);
+                    currentSector.textContent = sector;
+                    mainArea.appendChild(sectorInfo);
                 }
                 else {
                     mainArea.appendChild(clusterInfo);
@@ -397,17 +394,17 @@ function sleep(ms) {
                 orangeHubIcon.className = 'orange-hub orange-border-on';
                 sectorOrange.appendChild(orangeHubIcon);
             }
-            for (var i = 0; i<element.orangeOrbitals;++i) {
+            for (var i = 0; i < element.orangeOrbitals; ++i) {
                 var orangeOrbitalIcon = document.createElement("div");
                 orangeOrbitalIcon.className = 'orange-orbital orange-border-off';
                 sectorOrange.appendChild(orangeOrbitalIcon);
             }
             sectorDetails.appendChild(sectorOrange);
-            
+
             joinButton.textContent = 'Join';
             joinButton.className = 'cmd-button';
-            
-            joinButton.onclick = async function() {
+
+            joinButton.onclick = async function () {
                 // send request to join sector
                 var sectorRequest = JSON.stringify({
                     'type': 'join-sector',
@@ -421,7 +418,7 @@ function sleep(ms) {
             sectorDetails.appendChild(sectorCentre);
 
             sectorBlue.className = 'sector-blue';
-            for (var i = 0; i<element.blueOrbitals;++i) {
+            for (var i = 0; i < element.blueOrbitals; ++i) {
                 var blueOrbitalIcon = document.createElement("div");
                 blueOrbitalIcon.className = 'blue-orbital blue-border-off';
                 sectorBlue.appendChild(blueOrbitalIcon);
@@ -435,11 +432,11 @@ function sleep(ms) {
             sectorDetails.appendChild(sectorBlue);
 
             sectorDetails.className = 'sector-details';
-            
+
             sectorContainer.appendChild(sectorDetails);
 
             sectorSelection.appendChild(sectorContainer);
-            
+
         });
 
     }
@@ -460,13 +457,9 @@ function sleep(ms) {
     }
 
     function updateDataEntry(playerStatus, hub = false, ready = false) {
-        // nameEntry.style.visibility = 'hidden';
         teamSelection.style.visibility = 'hidden';
         roleSelection.style.visibility = 'hidden';
         readyArea.style.visibility = 'hidden';
-        // if (team == '') {
-            // playerStatus = 'team-selection';
-        // }
         switch (playerStatus) {
             case 'view-only':
                 dataEntryArea.style.display = 'none';
@@ -592,6 +585,7 @@ function sleep(ms) {
         // status bar
         updateStatusBar(startStatus);
         updateTimer(0);
+
         // main area
         updateMainArea('cluster-info');
         updateDataEntry();
@@ -604,15 +598,13 @@ function sleep(ms) {
         if (roleResponse.parentNode === roleSelection) {
             roleSelection.removeChild(roleResponse);
         }
+        
         // comms area
         startStatus['comms'] = 'message';
         updateCommsArea(startStatus['comms']);
         guessCount.textContent = guessRange.value;
 
         nameInput.focus();
-        // nav area
-        // commsButton.style.visibility = 'hidden';
-        // sectorButton.click();
     }
 
     // viewport fixes and scrolling behaviour
@@ -657,7 +649,7 @@ function sleep(ms) {
         connectionStatus.style.display = 'block';
         // go back to cluster info screen
         updateMainArea('cluster-info');
-        
+
     };
 
     websocket.onmessage = async function (event) {
@@ -665,8 +657,8 @@ function sleep(ms) {
         console.log(data);
         switch (data.type) {
             case 'welcome':
-            gamePrompt.textContent = data.prompt;
-            break;
+                gamePrompt.textContent = data.prompt;
+                break;
             case 'sectors':
                 {
                     updateSectorSelection(data.sectors);
@@ -784,9 +776,6 @@ function sleep(ms) {
                         hubButton.disabled = false;
                         updateStatusBar(data);
                         sectorButton.click();
-                        // orangeTeam.style.width = '32%';
-                        // blueTeam.style.width = '32%';
-                        // dataEntryArea.style.display = 'block';
                         updateDataEntry(dataEntry, data.hub, data.ready);
                         updateCommsArea('message');
                     } else if (state === 'waiting-start') {
@@ -796,9 +785,6 @@ function sleep(ms) {
                         orangeTeamButton.disabled = false;
                         blueTeamButton.disabled = false;
                         hubButton.disabled = false;
-                        // orangeTeam.style.width = '32%';
-                        // blueTeam.style.width = '32%';
-                        // dataEntryArea.style.display = 'block';
                         updateDataEntry(dataEntry, data.hub, data.ready);
                     } else if (state === 'game-start') {
                         var dataEntry = data.entry;
@@ -809,9 +795,6 @@ function sleep(ms) {
                         blueTeamButton.disabled = true;
                         hubButton.disabled = true;
                         startButton.disabled = true;
-                        // dataEntryArea.style.display = 'none';
-                        // orangeTeam.style.width = '50%';
-                        // blueTeam.style.width = '50%';
                         updateDataEntry(dataEntry);
                         updateMainArea('word-board');
                         if (data.updateComms == true)
@@ -821,7 +804,6 @@ function sleep(ms) {
                         var dataEntry = data.entry;
                         updateStatusBar(data);
                         updateDataEntry(dataEntry);
-                        // updateMainArea('word-board');
                         if (data.updateComms) {
                             updateCommsArea(data.comms);
                         }
@@ -830,7 +812,6 @@ function sleep(ms) {
                         updateStatusBar(data);
                         // enable guesses
                         updateDataEntry(dataEntry);
-                        // updateMainArea('word-board');
                         updateWordBoard(data.enableGuesses);
                         if (data.updateComms) {
                             updateCommsArea(data.comms);
@@ -839,7 +820,6 @@ function sleep(ms) {
                         var dataEntry = data.entry;
                         updateStatusBar(data);
                         updateDataEntry(dataEntry);
-                        // updateMainArea('word-board');
                         if (data.updateComms) {
                             updateCommsArea(data.comms);
                         }
