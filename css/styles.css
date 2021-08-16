@@ -1,0 +1,70 @@
+* {
+    margin: 0;
+}
+
+#orbitals-body {
+    background-color: black;
+    height: 100vh;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+o-title div {
+    text-align: center;
+    font-size: 3rem;
+    letter-spacing: 3px;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 5px solid #222;
+}
+
+o-connection {
+    position: absolute;
+    bottom: 1vh;
+    height: 1rem;
+    width: 100%;
+    text-align: center;
+    border-top: 2px gray solid;
+    /* line-height: 1rem; */
+    font-size: 1rem;
+}
+
+#connect-button {
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+    line-height: 1.2rem;
+}
+
+#name-prompt-container {
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    letter-spacing: 1px;
+}
+
+#name-entry {
+    margin-top: 1rem;
+    text-align: center;
+    background-color: indigo;
+    color: white;
+}
+
+#pregame-container {
+    margin-top: 1rem;
+    display: flex;
+    width: 100%;
+    text-align: center;
+}
+
+#blue-team-container, #orange-team-container {
+    width: 20%;
+}
+
+o-player-info {
+    width: 100%;
+}
+
+#player-info-container {
+    text-align: center;
+}
