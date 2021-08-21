@@ -1,0 +1,42 @@
+o-player-info {
+    width: 100%;
+}
+
+#player-name-label {
+    height: 2rem;
+}
+
+.team-button, .role-button {
+    width: 20%;
+    margin: 1rem;
+    height: 2.4rem;
+    background-color: black;
+    color: #eee;
+    border-radius: 5px;
+    border-width: 3px;
+    border-color: #666;
+    font-size: medium;
+    font-weight: normal;
+}
+
+.blue-highlight {
+    border-color: #40acff;
+}
+
+.orange-highlight {
+    border-color: orange;
+}
+
+.role-highlight {
+    border-color: #ddd;
+}
+/* .role-button {
+    width: 20%;
+    margin: 1rem;
+    height: 2rem;
+    background-color: black;
+    color: #fff;
+    border-radius: 5px;
+    border-width: 3px;
+    border-color: #222;
+} */

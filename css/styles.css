@@ -1,3 +1,5 @@
+/* @import 'o-player-info.css'; */
+
 * {
     margin: 0;
 }
@@ -29,6 +31,10 @@ o-connection {
     font-size: 1rem;
 }
 
+.roster-entry {
+    margin-top: 1rem;
+}
+
 #connect-button {
     margin-top: 0.6rem;
     margin-bottom: 0.6rem;
@@ -48,23 +54,4 @@ o-connection {
     text-align: center;
     background-color: indigo;
     color: white;
-}
-
-#pregame-container {
-    margin-top: 1rem;
-    display: flex;
-    width: 100%;
-    text-align: center;
-}
-
-#blue-team-container, #orange-team-container {
-    width: 20%;
-}
-
-o-player-info {
-    width: 100%;
-}
-
-#player-info-container {
-    text-align: center;
 }

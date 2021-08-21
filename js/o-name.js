@@ -19,7 +19,20 @@ class OrbitalsName extends HTMLElement {
         namePromptContainer.appendChild(nameEntry);
         this.appendChild(namePromptContainer);
         
-
+        nameEntry.addEventListener("keyup", async function (event) {
+            // console.log(event.key)
+                if (event.key === "Enter") {
+                    let name = nameEntry.value;
+                    // console.log("Entered ", name)
+                    const cev = new CustomEvent("name_submitted", {
+                        bubbles: true,
+                        composed: true,
+                        detail: name
+                    });
+                    nameEntry.dispatchEvent(cev)
+                }
+            });
+        
       }
 }
 
