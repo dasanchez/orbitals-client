@@ -1,7 +1,7 @@
 class OrbitalsPlayerInfo extends HTMLElement {
 
     static get observedAttributes() {
-        return ['name', 'team', 'role'];
+        return ['name', 'team', 'role', 'ready-start'];
     }
 
     // Only called for the disabled and open attributes due to observedAttributes
@@ -31,6 +31,10 @@ class OrbitalsPlayerInfo extends HTMLElement {
                 orbitalButton.setAttribute("class", "role-button");
                 hubButton.setAttribute("class", "role-button role-highlight");
             }
+        } else if (name == "ready-start") {
+            console.log("Ready start received,", newValue);
+            let startButton = document.getElementById("start-button");
+            startButton.style.display = newValue;
         }
     }
 
@@ -40,7 +44,6 @@ class OrbitalsPlayerInfo extends HTMLElement {
 
     connectedCallback() {
         function sendTeamRequest(e) {
-            // console.log("Pressed button", e);
             const tev = new CustomEvent("team_request", {
                 bubbles: true,
                 composed: true,
@@ -49,13 +52,19 @@ class OrbitalsPlayerInfo extends HTMLElement {
             this.dispatchEvent(tev);
         };
         function sendRoleRequest(e) {
-            // console.log("Pressed button", e);
             const rev = new CustomEvent("role_request", {
                 bubbles: true,
                 composed: true,
                 detail: e.currentTarget.myParam
             });
             this.dispatchEvent(rev);
+        };
+        function sendStartRequest(e) {
+            const sev = new CustomEvent("start_request", {
+                bubbles: true,
+                composed: true
+            });
+            this.dispatchEvent(sev);
         };
 
         // Name
@@ -105,12 +114,21 @@ class OrbitalsPlayerInfo extends HTMLElement {
         playerRoleSelection.appendChild(orbitalButton);
         playerRoleSelection.appendChild(hubButton);
 
+        // Start
+        let startButton = document.createElement("button");
+        startButton.setAttribute("id", "start-button");
+        startButton.setAttribute("class", "start-button");
+        startButton.textContent = "Start";
+        startButton.addEventListener("click", sendStartRequest, false);
+        startButton.style.display = "none";
+
+
         this.appendChild(playerNameLabel);
         this.appendChild(playerTeamLabel);
         this.appendChild(playerTeamSelection);
         this.appendChild(playerRoleLabel);
         this.appendChild(playerRoleSelection); 
-        // this.appendChild(infoContainer);
+        this.appendChild(startButton);
 
 
     }

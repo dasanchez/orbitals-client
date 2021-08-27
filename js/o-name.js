@@ -13,7 +13,7 @@ class OrbitalsName extends HTMLElement {
 
         let nameEntry = document.createElement("input");
         nameEntry.setAttribute("id","name-entry");
-        nameEntry.value = "Player"
+        nameEntry.value = "Alice"
 
         namePromptContainer.appendChild(namePromptLabel);
         namePromptContainer.appendChild(nameEntry);

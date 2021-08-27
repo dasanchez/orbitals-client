@@ -1,7 +1,7 @@
 class OrbitalsPreGame extends HTMLElement {
 
     static get observedAttributes() {
-        return ['name', 'team', 'role', 'players'];
+        return ['name', 'team', 'role', 'players', 'ready-start', 'blue-ready', 'orange-ready'];
     }
 
     // Only called for the disabled and open attributes due to observedAttributes
@@ -18,16 +18,36 @@ class OrbitalsPreGame extends HTMLElement {
             let playerInfo = document.getElementById("player-info-container");
             playerInfo.setAttribute("role", newValue);
         }
+        else if  (name == "ready-start") {
+            let playerInfo = document.getElementById("player-info-container");
+            playerInfo.setAttribute("ready-start", newValue);
+        }
+        else if (name == "blue-ready") {
+            let blueBanner = document.getElementById("blue-team-banner");
+            if (newValue == 'true') {
+                blueBanner.setAttribute("class", 'blue-ready');
+            } else {
+                blueBanner.setAttribute("class", '');
+            }
+        }
+        else if (name == "orange-ready") {
+            let orangeBanner = document.getElementById("orange-team-banner");
+            if (newValue == 'true') {
+                orangeBanner.setAttribute("class", 'orange-ready');
+            } else {
+                orangeBanner.setAttribute("class", '');
+            }
+        }
         else if (name == "players") {
             // console.log(JSON.parse(newValue));
             let roster = JSON.parse(newValue);
-            console.log(roster);
+            // console.log(roster);
 
-            let blueTeam = document.getElementById("blue-team-container");
+            let blueTeam = document.getElementById("blue-team-roster");
             while (blueTeam.lastChild) {
                     blueTeam.removeChild(blueTeam.lastChild);
                 }
-            blueTeam.textContent = "Blue Team";
+            // blueTeam.textContent = "Blue Team";
 
             let orangeTeam = document.getElementById("orange-team-container");
             while (orangeTeam.lastChild) {
@@ -73,6 +93,14 @@ class OrbitalsPreGame extends HTMLElement {
         let blueTeamContainer = document.createElement("div");
         // blueTeamContainer.textContent = "Blue Team"
         blueTeamContainer.setAttribute("id", "blue-team-container");
+        let blueTeamBanner = document.createElement("div");
+        blueTeamBanner.setAttribute("id", "blue-team-banner");
+        blueTeamBanner.textContent = "Blue Team"
+        let blueTeamRoster = document.createElement("div");
+        blueTeamRoster.setAttribute("id", "blue-team-roster");
+        blueTeamContainer.appendChild(blueTeamBanner);
+        blueTeamContainer.appendChild(blueTeamRoster);
+        
 
         let playerInfoContainer = document.createElement("o-player-info");
         playerInfoContainer.setAttribute("id", "player-info-container");
@@ -82,17 +110,6 @@ class OrbitalsPreGame extends HTMLElement {
         // orangeTeamContainer.innerText = "ORANGE TEAM";
         orangeTeamContainer.setAttribute("id", "orange-team-container");
 
-        // let namePromptLabel = document.createElement("div");
-        // namePromptLabel.innerText = "Enter your name:";
-
-        // let nameEntry = document.createElement("input");
-        // nameEntry.setAttribute("id","name-entry");
-        // nameEntry.value = "Player"
-        // namePromptLabel.innerText = "Enter your name:";
-
-
-        // namePromptContainer.appendChild(namePromptLabel);
-        // namePromptContainer.appendChild(nameEntry);
         pregameContainer.appendChild(blueTeamContainer);
         pregameContainer.appendChild(playerInfoContainer);
         pregameContainer.appendChild(orangeTeamContainer);

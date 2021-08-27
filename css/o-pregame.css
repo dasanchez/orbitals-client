@@ -9,6 +9,14 @@
     width: 20%;
 }
 
+.blue-ready::after {
+    content: " > READY"
+}
+
+.orange-ready::before {
+    content: " READY < "
+}
+
 .roster-hub::before {
     content: "• ";
 }

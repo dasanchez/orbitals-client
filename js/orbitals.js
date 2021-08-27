@@ -5,6 +5,10 @@ class OrbitalsClient extends HTMLElement {
     }
 
     connectedCallback() {
+        var mockup = new OrbitalsMockup();
+        var team = '';
+        var role = 'orbital';
+
         var orbitalsContainer = document.createElement("div");
         orbitalsContainer.setAttribute("id", "orbitals-body");
         this.appendChild(orbitalsContainer);
@@ -24,57 +28,6 @@ class OrbitalsClient extends HTMLElement {
         pregame_screen.setAttribute("id", "pregame-screen");
         orbitalsContainer.appendChild(pregame_screen);
         pregame_screen.style.display = "none";
-
-        // console.log("Registering event listener...  ")
-        function handleIncomingMessage(data) {
-            console.log("Incoming message:", data);
-            if (data["type"] == "msg") {
-                if (data["msg"] == "provide name") {
-                    // show name screen
-                    name_dialog.style.display = "block";
-                    let nameInput = document.querySelector("#name-entry");
-                    nameInput.focus()
-                }
-                else if (data["msg"] == "name accepted") {
-                    name_dialog.style.display = "none";
-                    // display pregame screen
-                    pregame_screen.style.display = "block";
-                    pregame_screen.setAttribute("name", data["name"]);
-                }
-                else if (data["msg"] == "team accepted") {
-                    name_dialog.style.display = "none";
-                    // display pregame screen
-                    pregame_screen.style.display = "block";
-                    pregame_screen.setAttribute("team", data["team"]);
-                    pregame_screen.setAttribute("role", data["role"]);
-                }
-                else if (data["msg"] == "role accepted") {
-                    name_dialog.style.display = "none";
-                    // display pregame screen
-                    pregame_screen.style.display = "block";
-                    pregame_screen.setAttribute("role", data["role"]);
-                }
-            }
-            else if (data["type"] == "broadcast") {
-                // console.log(data["msg"]);
-                var str = data["msg"]
-                if (str.slice(-15) == "joined the game") {
-                    // Update roster
-                    pregame_screen.setAttribute("players", JSON.stringify(data["status"]["players"]))
-                }
-                else if (str.slice(-4) == "team") {
-                    pregame_screen.setAttribute("players", JSON.stringify(data["status"]["players"]))
-                }
-                else if (str.slice(-7) == "orbital") {
-                    pregame_screen.setAttribute("players", JSON.stringify(data["status"]["players"]))
-                }
-                else if (str.slice(-3) == "hub") {
-                    pregame_screen.setAttribute("players", JSON.stringify(data["status"]["players"]))
-                }
-            }
-            // let type = data["type"]
-            // console.log("Type:" + type);
-        };
 
         // websockets comms
 
@@ -127,9 +80,91 @@ class OrbitalsClient extends HTMLElement {
             }))
         };
 
+        async function request_start() {
+            console.log("Requesting start")
+            wso.send(JSON.stringify({
+                'type': 'start-request'
+            }))
+        }
+
+        // console.log("Registering event listener...  ")
+        function handleIncomingMessage(data) {
+            console.log("Incoming message:", data);
+            if (data["type"] == "msg") {
+                if (data["msg"] == "provide name") {
+                    // show name screen
+                    name_dialog.style.display = "block";
+                    let nameInput = document.querySelector("#name-entry");
+                    nameInput.focus()
+                }
+                else if (data["msg"] == "name accepted") {
+                    name_dialog.style.display = "none";
+                    // display pregame screen
+                    pregame_screen.style.display = "block";
+                    pregame_screen.setAttribute("name", data["name"]);
+                    mockup.run_game(wso);
+                }
+                else if (data["msg"] == "team accepted") {
+                    name_dialog.style.display = "none";
+                    // display pregame screen
+                    pregame_screen.style.display = "block";
+                    pregame_screen.setAttribute("team", data["team"]);
+                    pregame_screen.setAttribute("role", data["role"]);
+                    team = data["team"];
+                }
+                else if (data["msg"] == "role accepted") {
+                    name_dialog.style.display = "none";
+                    // display pregame screen
+                    pregame_screen.style.display = "block";
+                    pregame_screen.setAttribute("role", data["role"]);
+                    role = data["role"];
+                }
+            }
+            else if (data["type"] == "broadcast") {
+                // console.log(data["msg"]);
+                var str = data["msg"]
+                let status = data["status"]["game_state"];
+                if (status == "WAITING_PLAYERS") {
+                    pregame_screen.setAttribute("players", JSON.stringify(data["status"]["players"]))
+                    pregame_screen.setAttribute("ready-start", "none");
+                }
+                else if (status == "WAITING_START") {
+                    pregame_screen.setAttribute("players", JSON.stringify(data["status"]["players"]));
+                    pregame_screen.setAttribute("blue-ready", data["status"]["start_game"]["blue"]);
+                    if (role == "hub") {
+                        if (data["status"]["start_game"][team] == false) {
+                            // my team is ready to start
+                            pregame_screen.setAttribute("ready-start", "unset");
+                        } else {
+                            pregame_screen.setAttribute("ready-start", "none");
+                        }
+                    }
+
+                }
+                // if (str.slice(-15) == "joined the game") {
+                //     // Update roster
+                //     pregame_screen.setAttribute("players", JSON.stringify(data["status"]["players"]))
+                // }
+                // else if (str.slice(-4) == "team") {
+                //     pregame_screen.setAttribute("players", JSON.stringify(data["status"]["players"]))
+                // }
+                // else if (str.slice(-7) == "orbital") {
+                //     pregame_screen.setAttribute("players", JSON.stringify(data["status"]["players"]))
+                // }
+                // else if (str.slice(-3) == "hub") {
+                //     pregame_screen.setAttribute("players", JSON.stringify(data["status"]["players"]))
+                // }
+            }
+            // let type = data["type"]
+            // console.log("Type:" + type);
+        };
+
+
+
         document.addEventListener("name_submitted", e => send_name(e.detail));
         document.addEventListener("team_request", e => request_team(e.detail));
         document.addEventListener("role_request", e => request_role(e.detail));
+        document.addEventListener("start_request", e => request_start());
     }
 }
 

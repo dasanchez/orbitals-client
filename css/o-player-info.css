@@ -6,7 +6,7 @@ o-player-info {
     height: 2rem;
 }
 
-.team-button, .role-button {
+.team-button, .role-button, .start-button {
     width: 20%;
     margin: 1rem;
     height: 2.4rem;
